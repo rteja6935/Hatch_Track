@@ -1,291 +1,71 @@
-/* UserDashboard.css - larger, compact UI with blue & gold palette and subtle background pattern */
+/* Add these styles to your existing UserDashboard.css file */
 
-/* Colors */
-:root{
-  --bg-1: #eaf3ff;      /* very light blue background */
-  --bg-2: #fff8ec;      /* very light gold tint */
-  --card-bg: #ffffff;
-  --primary: #0b63d8;   /* deep professional blue */
-  --primary-2: #1f7bff; /* secondary blue */
-  --gold: #c59a2e;      /* gold accent */
-  --muted: #6b7380;
-  --soft: rgba(11,99,216,0.06);
-  --radius: 14px;
-  --shadow: 0 10px 28px rgba(6,30,70,0.08);
-  --glass: rgba(255,255,255,0.6);
-  font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+/* Header Styles */
+.ud-header {
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* page background with minimal diagonal pattern + vignette */
-.ud-page {
-  min-height: 100vh;
-  padding: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background:
-    repeating-linear-gradient(
-      135deg,
-      rgba(11,99,216,0.02) 0px,
-      rgba(11,99,216,0.02) 2px,
-      rgba(197,154,46,0.01) 2px,
-      rgba(197,154,46,0.01) 6px
-    ),
-    radial-gradient(circle at 10% 10%, rgba(11,99,216,0.03), transparent 15%),
-    linear-gradient(180deg, var(--bg-1), var(--bg-2));
-}
-
-/* main card */
-.ud-card {
-  width: 1100px;
-  max-width: 98%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,251,0.98));
-  padding: 18px;
-  border-radius: 16px;
-  box-shadow: var(--shadow);
-  box-sizing: border-box;
-  border: 1px solid rgba(11,99,216,0.06);
-}
-
-/* rows are compact, no large spaces */
-.ud-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-/* PROFILE ROW */
-.profile-row {
-  justify-content: space-between;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(11,99,216,0.04);
-}
-
-/* left side: avatar + basic data */
-.profile-left {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-
-.avatar-large {
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  background: linear-gradient(135deg,#f6fbff,#fffdf6);
-  border: 1px solid rgba(11,99,216,0.06);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  box-shadow: 0 8px 18px rgba(11,99,216,0.06);
-}
-
-.avatar-large img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.avatar-initials {
-  font-weight: 800;
-  color: var(--primary);
-  font-size: 26px;
-}
-
-/* profile text */
-.profile-data .name {
-  font-size: 22px;
+.logo {
+  font-size: 1.75rem;
   font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 4px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.5px;
 }
-.profile-data .meta {
-  color: var(--muted);
-  font-size: 13px;
-  margin-bottom: 2px;
-}
-.meta-strong { color: #243b5a; font-weight: 700; }
 
-/* profile actions (compact column) */
+/* Profile Edit Input Styles */
+.edit-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.edit-input.name-input {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.edit-input::placeholder {
+  color: #94a3b8;
+}
+
+/* Adjust profile actions for edit mode */
 .profile-actions-compact {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   align-items: center;
 }
 
-/* button styles */
-.btn {
-  border: none;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 14px;
-  transition: transform 120ms ease, box-shadow 120ms ease;
-}
-.btn.large { padding: 12px 18px; font-size: 15px; border-radius: 12px; }
-.btn.small { padding: 8px 10px; font-size: 13px; border-radius: 10px; }
-
-.btn.primary {
-  background: linear-gradient(90deg, var(--primary), var(--primary-2));
-  color: #fff;
-  box-shadow: 0 10px 26px rgba(11,99,216,0.12);
-  border: 1px solid rgba(255,255,255,0.06);
-}
-.btn.ghost {
-  background: transparent;
-  color: #123;
-  border: 1px solid rgba(11,99,216,0.08);
-  box-shadow: none;
-}
-.btn.danger {
-  background: linear-gradient(90deg,#ff6b6b,#e14b4b);
-  color: white;
-}
-
-/* SEED SUMMARY */
-.seed-row {
-  justify-content: flex-start;
-  gap: 14px;
-  margin-top: 12px;
-  margin-bottom: 12px;
-}
-.seed-pill {
-  background: linear-gradient(180deg,#ffffff,#fdf9f2);
-  border: 1px solid rgba(11,99,216,0.04);
-  padding: 12px 18px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 140px;
-  box-shadow: 0 8px 20px rgba(11,99,216,0.03);
-}
-.seed-number { font-weight: 800; color: var(--primary); font-size: 20px; }
-.seed-label { color: var(--muted); font-size: 13px; margin-top: 4px; }
-
-/* GROWTH SECTION */
-.growth-row { flex-direction: column; align-items: stretch; gap: 12px; margin-top: 6px; }
-.section-title { margin: 0; color: #103a78; font-size: 18px; font-weight: 800; }
-
-/* slots grid - bigger previews, no spaces between cards visually */
-.slots-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 8px;
-}
-
-/* each slot card */
-.slot {
-  background: linear-gradient(180deg,#ffffff,#fffdf8);
-  border: 1px solid rgba(11,99,216,0.04);
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 8px;
-  box-shadow: 0 8px 20px rgba(16,30,60,0.04);
-}
-
-/* preview area */
-.slot-preview {
-  height: 220px;
-  border-radius: 10px;
-  overflow: hidden;
-  background: linear-gradient(180deg, rgba(11,99,216,0.02), rgba(197,154,46,0.01));
-  display: grid;
-  place-items: center;
-  border: 1px dashed rgba(11,99,216,0.03);
-}
-.slot-preview img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
-
-/* placeholder */
-.slot-placeholder {
-  color: var(--muted);
-  font-weight: 700;
-  font-size: 16px;
-}
-
-/* controls row (compact) */
-.slot-controls { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
-
-/* action row */
-.slot-actions { display: flex; gap: 8px; align-items: center; justify-content: center; }
-
-/* progress box */
-.progress-box {
-  width: 100%;
-  height: 12px;
-  background: rgba(11,99,216,0.06);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(11,99,216,0.03);
-}
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--gold));
-  width: 0%;
-  transition: width 260ms linear;
-}
-
-/* done badge */
-.done-badge {
-  background: linear-gradient(90deg,var(--gold),#f3d88a);
-  color: #1b2b2b;
-  font-weight: 800;
-  padding: 6px 10px;
-  border-radius: 8px;
-  box-shadow: 0 8px 18px rgba(197,154,46,0.08);
-}
-
-/* meta row */
-.slot-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  color: var(--muted);
-  padding: 4px 6px;
-}
-
-/* viewer modal */
-.viewer {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(6,20,40,0.6);
-  z-index: 1200;
-}
-.viewer-inner {
-  background: white;
-  border-radius: 12px;
-  padding: 14px;
-  max-width: 92%;
-  max-height: 92%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-}
-.viewer-inner img {
-  max-width: 86vw;
-  max-height: 76vh;
-  object-fit: contain;
-  border-radius: 10px;
-}
-
-/* responsive layout adjustments */
-@media (max-width: 1100px) {
-  .slots-grid { grid-template-columns: repeat(2, 1fr); }
-  .avatar-large { width: 100px; height: 100px; }
-}
-@media (max-width: 640px) {
-  .ud-card { padding: 12px; }
-  .slots-grid { grid-template-columns: 1fr; }
-  .slot-preview { height: 220px; }
-  .profile-left { gap: 10px; align-items: flex-start; flex-direction: row; }
-  .profile-actions-compact { flex-direction: column; align-items: stretch; width: 160px; }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ud-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .profile-actions-compact {
+    width: 100%;
+    margin-top: 1rem;
+  }
 }
