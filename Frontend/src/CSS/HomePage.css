@@ -1,0 +1,169 @@
+/* General Container */
+.home-container {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: #006d77;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.logIn-btn {
+  padding: 0.5rem 1.2rem;
+  background-color: #83c5be;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.logIn-btn:hover {
+  background-color: #52b2a2;
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 10%;
+  background: linear-gradient(135deg, #dff6ff, #83c5be);
+  text-align: center;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  color: #006d77;
+  margin-bottom: 1rem;
+}
+
+.hero-section p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.cta-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #006d77;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #004f55;
+}
+
+/* Features / About Section */
+.info-section {
+  padding: 4rem 10%;
+  background-color: #f7f9fc;
+  text-align: center;
+}
+
+.info-section h2 {
+  font-size: 2rem;
+  color: #006d77;
+  margin-bottom: 1.5rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.feature-card h3 {
+  color: #006d77;
+  margin-bottom: 0.5rem;
+}
+
+/* Reviews Section */
+.reviews-section {
+  padding: 4rem 10%;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.reviews {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.review-card {
+  max-width: 300px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: #dff6ff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.review-card p {
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+/* Footer */
+.footer-section {
+  background-color: #006d77;
+  color: white;
+  text-align: center;
+  padding: 2rem 5%;
+}
+
+.footer-section h3 {
+  margin-bottom: 1rem;
+}
+
+.footer-section p {
+  margin: 0.2rem 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-section, .info-section, .reviews-section {
+    padding: 3rem 5%;
+  }
+
+  .reviews {
+    flex-direction: column;
+    align-items: center;
+  }
+}

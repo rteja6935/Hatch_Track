@@ -1,0 +1,160 @@
+/* Container */
+.userlogin-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: #f7f9fc;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Left Side - Image */
+.login-left {
+  flex: 1;
+  background-color: #dff6ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image {
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Right Side - Form */
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.login-box {
+  width: 80%;
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-box h2 {
+  color: #006d77;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtext {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Inputs */
+input[type="tel"],
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #006d77;
+  outline: none;
+}
+
+/* Buttons */
+.send-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #006d77;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.send-btn:disabled {
+  background-color: #83c5be;
+  cursor: not-allowed;
+}
+
+.send-btn:hover:not(:disabled) {
+  background-color: #004f55;
+}
+
+.verify-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #00b4d8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.verify-btn:hover {
+  background-color: #0096c7;
+}
+
+/* OTP Section */
+.otp-section {
+  margin-top: 1rem;
+}
+
+/* Sign Up / Login toggle link */
+.signup-text {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+}
+
+.signup-link {
+  color: #006d77;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+  color: #004f55;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .userlogin-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .login-left {
+    display: none;
+  }
+
+  .login-right {
+    flex: 1;
+    padding: 3rem 1rem;
+  }
+
+  .login-box {
+    width: 100%;
+    max-width: 350px;
+  }
+}
