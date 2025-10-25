@@ -277,7 +277,7 @@ const UserLogin = () => {
     }
 
     // Demo: just navigate
-    alert("Login successful!");
+   
     navigate("/user-dashboard");
     resetForm();
   };

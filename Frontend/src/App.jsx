@@ -4,9 +4,12 @@ import HomePage from './Components/HomePage';
 import UserLogin from './Components/UserLogin';
 import UserDashboard from './Components/UserDashboard';
 import AdminDashboard from './Components/AdminDashboard';
-
+import UserProfile from './Components/UserProfile';
 import UserDetails from './Components/UserDetails';
 import AdminLogIn from './Components/LogIn';
+// import ProfileCard from './Components/ProfileCard';
+import Profilecard from './Components/ProfileCard';
+import AdminProfile from './Components/AdminProfile';   
 import './App.css';
 
 function App() {
@@ -25,10 +28,13 @@ function App() {
         {/* <Route path="/Admin-Login" element={<AdminLogin />} /> */}
         <Route path="/user-login" element={<UserLogin />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/Profile-card" element={<Profilecard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard/>} />
+        <Route path="/admin-profile" element={<AdminProfile />} />
+        <Route path="/user/:name" element={<UserProfile />} />
         <Route path="/user-details" element={<UserDetails />} />
         {/* Fallback route */}
-        <Route path="*" element={<Navigate to="/user-login" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
   );
