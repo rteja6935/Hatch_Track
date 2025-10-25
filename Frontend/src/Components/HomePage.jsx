@@ -1,12 +1,13 @@
 import React from "react";
 import "../CSS/HomePage.css";
 import { useNavigate } from "react-router-dom";
-
+import { FaCircleUser } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 const HomePage = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    alert("Navigating to login page...");
+   
     navigate("/user-login");
   };
 
@@ -15,10 +16,20 @@ const HomePage = () => {
       {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-title">🐣 HatchSeed</div>
-        <button className="logIn-btn" onClick={handleLogout}>
+      
+
+    <div class="nav-buttons">
+      
+      <button className="logIn-btn" onClick={handleLogout}>
           Login
         </button>
-      </nav>
+       <div class="profile">
+         <Link to="/admin-login">
+        <FaCircleUser size={25} style={{ textDecoration: 'none', color: 'white' }}/> 
+        </Link>
+      </div>
+    </div>
+  </nav>
 
       {/* Hero Section */}
       <section className="hero-section">
