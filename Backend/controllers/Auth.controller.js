@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
-const Admin = require('../model/Admin.model');
-const User = require('../model/User.model');
+const Admin = require('../models/AdminProfile.model');
+const User = require('../models/User.model');
 
 // Welcome route
 exports.welcome = (req, res) => {
@@ -26,7 +26,9 @@ exports.adminSignup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const newAdmin = new Admin({ username, email, password: hashedPassword });
-    await newAdmin.save();
+    await newAdmin.save().then(()=>{
+      console.log('Admin data saved successfully');
+    });
 
     res.status(201).json({ message: 'Admin account created successfully' });
   } catch (error) {
