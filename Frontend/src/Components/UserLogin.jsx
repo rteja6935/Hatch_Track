@@ -65,6 +65,8 @@ const UserLogin = () => {
     const storedOtp = localStorage.getItem("otp");
     if (enteredOtp === storedOtp) {
       localStorage.removeItem("otp");
+      // Save phone number for dashboard to use
+      localStorage.setItem("userPhoneNumber", phoneNumber);
       navigate("/user-dashboard");
       resetForm();
     } else {
@@ -78,6 +80,8 @@ const UserLogin = () => {
       alert("Please enter mobile number and password");
       return;
     }
+    // Save phone number for dashboard to use
+    localStorage.setItem("userPhoneNumber", phoneNumber);
     navigate("/user-dashboard");
     resetForm();
   };

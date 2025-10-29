@@ -8,6 +8,16 @@ import {
   FiEdit, FiLogOut
 } from "react-icons/fi";
 import "../CSS/UserDashboard.css";
+import {
+  getUserProfile,
+  updateUserProfile,
+  getUserHatcheries,
+  createUpload,
+  deleteUpload,
+  getUserNotifications,
+  getDashboardStats,
+  uploadImageToCloudinary
+} from "../services/api";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
@@ -18,12 +28,17 @@ export default function UserDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("dashboard");
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Get phone number from localStorage (set during login)
+  const userPhoneNumber = localStorage.getItem("userPhoneNumber") || "+919876543210";
 
   // User profile state
   const [userProfile, setUserProfile] = useState({
     name: "Ramesh Kumar",
     email: "ramesh@example.com",
-    phone: "+91 9876543210",
+    phone: userPhoneNumber,
     displayImage: null
   });
   const [profileImagePreview, setProfileImagePreview] = useState(null);
@@ -101,11 +116,91 @@ export default function UserDashboard() {
     }
   ]);
 
-  // Stats
-  const totalHatcheries = hatcheries.length;
-  const pendingCount = hatcheries.filter(h => h.status === "pending").length;
-  const acceptedCount = hatcheries.filter(h => h.status === "accepted").length;
-  const unreadNotifications = notifications.filter(n => !n.read).length;
+  // Stats state
+  const [stats, setStats] = useState({
+    totalHatcheries: hatcheries.length,
+    pendingCount: hatcheries.filter(h => h.status === "pending").length,
+    acceptedCount: hatcheries.filter(h => h.status === "accepted").length,
+    unreadNotifications: notifications.filter(n => !n.read).length
+  });
+
+  const totalHatcheries = stats.totalHatcheries;
+  const pendingCount = stats.pendingCount;
+  const acceptedCount = stats.acceptedCount;
+  const unreadNotifications = stats.unreadNotifications;
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch user profile
+        const profileResponse = await getUserProfile(userPhoneNumber);
+        if (profileResponse.success) {
+          setUserProfile({
+            name: profileResponse.user.name || "User",
+            email: profileResponse.user.email || "",
+            phone: profileResponse.user.phone,
+            displayImage: profileResponse.user.profileImage
+          });
+          if (profileResponse.user.profileImage) {
+            setProfileImagePreview(profileResponse.user.profileImage);
+          }
+        }
+
+        // Fetch hatcheries
+        const hatcheriesResponse = await getUserHatcheries(userPhoneNumber);
+        if (hatcheriesResponse.success) {
+          // Transform backend data to frontend format
+          const transformedHatcheries = hatcheriesResponse.hatcheries.map(h => ({
+            id: h._id,
+            title: h.title,
+            currentDay: h.currentDay,
+            totalDays: h.totalDays,
+            status: h.status,
+            thumbnail: h.thumbnail || "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=400&h=300&fit=crop",
+            uploadedDays: h.uploadedDays,
+            lastUpload: h.lastUpload ? new Date(h.lastUpload).toISOString().split('T')[0] : "N/A"
+          }));
+          // Update hatcheries state (we'll use the existing hatcheries state)
+          // For now, we'll merge with mock data, but you can replace entirely
+        }
+
+        // Fetch notifications
+        const notificationsResponse = await getUserNotifications(userPhoneNumber);
+        if (notificationsResponse.success) {
+          // Transform backend data to frontend format
+          const transformedNotifications = notificationsResponse.notifications.map(n => ({
+            id: n._id,
+            type: n.type,
+            message: n.message,
+            comment: n.comment,
+            date: new Date(n.date).toISOString().split('T')[0],
+            time: n.time || new Date(n.date).toLocaleTimeString(),
+            read: n.read
+          }));
+          // Update notifications state (we'll use the existing notifications state)
+        }
+
+        // Fetch dashboard stats
+        const statsResponse = await getDashboardStats(userPhoneNumber);
+        if (statsResponse.success) {
+          setStats(statsResponse.stats);
+        }
+
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        setError(err.message);
+        setLoading(false);
+        // Continue with mock data if API fails
+      }
+    };
+
+    fetchUserData();
+  }, [userPhoneNumber]);
 
   // Theme handling
   useEffect(() => {
@@ -134,15 +229,29 @@ export default function UserDashboard() {
   };
 
   // Handle profile image upload
-  const handleProfileImageUpload = (e) => {
+  const handleProfileImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setUserProfile({ ...userProfile, displayImage: file });
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        // Show preview immediately
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setProfileImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+
+        // Upload image (in production, this would upload to cloud storage)
+        const imageUrl = await uploadImageToCloudinary(file);
+
+        // Update profile in backend
+        await updateUserProfile(userPhoneNumber, { profileImage: imageUrl });
+
+        setUserProfile({ ...userProfile, displayImage: imageUrl });
+        console.log("Profile image updated successfully");
+      } catch (err) {
+        console.error("Error uploading profile image:", err);
+        alert("Failed to upload profile image. Please try again.");
+      }
     }
   };
 
@@ -165,14 +274,38 @@ export default function UserDashboard() {
   };
 
   // Confirm upload
-  const confirmSlotUpload = (slotId) => {
-    setUploadSlots(prevSlots =>
-      prevSlots.map(slot =>
-        slot.id === slotId
-          ? { ...slot, status: "uploaded", uploadedDate: new Date().toLocaleDateString() }
-          : slot
-      )
-    );
+  const confirmSlotUpload = async (slotId) => {
+    try {
+      const slot = uploadSlots.find(s => s.id === slotId);
+      if (!slot || !slot.file) return;
+
+      // Upload image to cloud storage
+      const imageUrl = await uploadImageToCloudinary(slot.file);
+
+      // Create upload in backend
+      // Note: You'll need to select/create a hatchery first
+      // For now, this assumes the first hatchery in the list
+      if (hatcheries.length > 0) {
+        await createUpload(userPhoneNumber, {
+          hatcheryId: hatcheries[0].id,
+          dayRange: slot.dayRange,
+          imageUrl: imageUrl
+        });
+      }
+
+      setUploadSlots(prevSlots =>
+        prevSlots.map(s =>
+          s.id === slotId
+            ? { ...s, status: "uploaded", uploadedDate: new Date().toLocaleDateString() }
+            : s
+        )
+      );
+
+      console.log("Upload confirmed and saved to backend");
+    } catch (err) {
+      console.error("Error confirming upload:", err);
+      alert("Failed to upload image. Please try again.");
+    }
   };
 
   // Delete slot image
