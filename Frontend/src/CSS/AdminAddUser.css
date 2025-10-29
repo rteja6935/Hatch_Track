@@ -1,0 +1,344 @@
+/* AdminAddUser.css */
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+.admin-add-user-page {
+  min-height: 100vh;
+  background: var(--admin-bg, #F5F7FA);
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  padding: var(--admin-spacing-xl, 2rem);
+}
+
+.add-user-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--admin-spacing-xl, 2rem);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-spacing-lg, 1.5rem);
+}
+
+.back-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--admin-card-bg, #FFFFFF);
+  border: 1px solid var(--admin-border, #E5E7EB);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--admin-text-primary, #1F2937);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: var(--admin-danger-light, rgba(239, 68, 68, 0.1));
+  border-color: var(--admin-danger, #ef4444);
+  color: var(--admin-danger, #ef4444);
+}
+
+.add-user-header h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--admin-text-primary, #1F2937);
+  margin-bottom: 0.25rem;
+}
+
+.add-user-header p {
+  font-size: 0.9375rem;
+  color: var(--admin-text-secondary, #6B7280);
+}
+
+.success-banner {
+  background: var(--admin-success-light, rgba(34, 197, 94, 0.1));
+  border: 1px solid var(--admin-success, #22c55e);
+  border-radius: 12px;
+  padding: var(--admin-spacing-md, 1rem) var(--admin-spacing-lg, 1.5rem);
+  margin-bottom: var(--admin-spacing-lg, 1.5rem);
+  display: flex;
+  align-items: center;
+  gap: var(--admin-spacing-md, 1rem);
+  color: var(--admin-success, #22c55e);
+  font-weight: 600;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.success-banner svg {
+  font-size: 1.5rem;
+}
+
+.add-user-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.add-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-spacing-xl, 2rem);
+}
+
+.form-section {
+  background: var(--admin-card-bg, #FFFFFF);
+  border: 1px solid var(--admin-border, #E5E7EB);
+  border-radius: 12px;
+  padding: var(--admin-spacing-xl, 2rem);
+  box-shadow: var(--admin-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.form-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--admin-text-primary, #1F2937);
+  margin-bottom: var(--admin-spacing-lg, 1.5rem);
+  padding-bottom: var(--admin-spacing-md, 1rem);
+  border-bottom: 1px solid var(--admin-border, #E5E7EB);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--admin-spacing-lg, 1.5rem);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--admin-text-primary, #1F2937);
+  margin-bottom: 0.5rem;
+}
+
+.form-field label svg {
+  color: var(--admin-primary, #5B7C99);
+  font-size: 1rem;
+}
+
+.required {
+  color: var(--admin-danger, #ef4444);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--admin-border, #E5E7EB);
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  color: var(--admin-text-primary, #1F2937);
+  background: var(--admin-card-bg, #FFFFFF);
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--admin-primary, #5B7C99);
+  box-shadow: 0 0 0 3px rgba(91, 124, 153, 0.1);
+}
+
+.form-field input.error,
+.form-field select.error {
+  border-color: var(--admin-danger, #ef4444);
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--admin-danger, #ef4444);
+  margin-top: 0.375rem;
+  font-weight: 500;
+}
+
+.error-message svg {
+  font-size: 0.875rem;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-spacing-md, 1rem);
+}
+
+.radio-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--admin-spacing-md, 1rem);
+  padding: var(--admin-spacing-md, 1rem);
+  border: 2px solid var(--admin-border, #E5E7EB);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radio-option:hover {
+  border-color: var(--admin-primary, #5B7C99);
+  background: rgba(91, 124, 153, 0.02);
+}
+
+.radio-option input[type="radio"] {
+  margin-top: 0.125rem;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--admin-primary, #5B7C99);
+}
+
+.radio-option input[type="radio"]:checked ~ .radio-content {
+  color: var(--admin-primary, #5B7C99);
+}
+
+.radio-option:has(input:checked) {
+  border-color: var(--admin-primary, #5B7C99);
+  background: rgba(91, 124, 153, 0.05);
+}
+
+.radio-content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--admin-spacing-md, 1rem);
+  flex: 1;
+}
+
+.radio-content svg {
+  font-size: 1.25rem;
+  margin-top: 0.125rem;
+  color: var(--admin-primary, #5B7C99);
+}
+
+.radio-content strong {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--admin-text-primary, #1F2937);
+  margin-bottom: 0.25rem;
+}
+
+.radio-content span {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--admin-text-secondary, #6B7280);
+}
+
+.form-actions {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: var(--admin-spacing-md, 1rem);
+  padding: var(--admin-spacing-xl, 2rem);
+  background: var(--admin-card-bg, #FFFFFF);
+  border: 1px solid var(--admin-border, #E5E7EB);
+  border-radius: 12px;
+  box-shadow: var(--admin-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+}
+
+.form-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-secondary {
+  background: var(--admin-border-light, #F3F4F6);
+  color: var(--admin-text-primary, #1F2937);
+  border: 1px solid var(--admin-border, #E5E7EB);
+}
+
+.btn-secondary:hover {
+  background: var(--admin-border, #E5E7EB);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #5B7C99 0%, #4A6478 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91, 124, 153, 0.3);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+}
+
+.btn-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-add-user-page {
+    padding: var(--admin-spacing-md, 1rem);
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .add-user-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .back-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-section {
+    padding: var(--admin-spacing-md, 1rem);
+  }
+
+  .form-actions {
+    padding: var(--admin-spacing-md, 1rem);
+  }
+}
