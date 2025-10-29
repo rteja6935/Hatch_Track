@@ -1,109 +1,404 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiArrowLeft, FiCamera, FiSave, FiUser, FiMail, FiPhone } from "react-icons/fi";
+import "../CSS/SharedAuth.css";
 
-const UserProfile = () => {
-  const { state } = useLocation();
+export default function UserProfile() {
   const navigate = useNavigate();
-  const user = state?.user;
 
-  if (!user) {
-    return (
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <h2>User not found</h2>
-        <button
-          onClick={() => navigate("/")}
-          style={{
-            background: "#0891b2",
-            color: "#fff",
-            border: "none",
-            borderRadius: "8px",
-            padding: "10px 24px",
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
-        >
-          Back to Dashboard
-        </button>
-      </div>
-    );
-  }
+  const [profileData, setProfileData] = useState({
+    name: "Ramesh Kumar",
+    email: "ramesh@example.com",
+    phone: "+91 9876543210",
+    address: "123 Aqua Street, Fish Town",
+    city: "Mumbai",
+    state: "Maharashtra",
+    pincode: "400001"
+  });
+
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImagePreview, setProfileImagePreview] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleInputChange = (field, value) => {
+    setProfileData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSave = () => {
+    // Here you would typically save to backend
+    alert("Profile updated successfully!");
+    setIsEditing(false);
+  };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(to bottom, #f9fafb, #f3f4f6)",
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "40px 20px",
-      }}
-    >
-      <button
-        onClick={() => navigate(-1)}
-        style={{
-          alignSelf: "flex-start",
-          marginBottom: "20px",
-          background: "#0891b2",
-          color: "#fff",
-          border: "none",
-          borderRadius: "8px",
-          padding: "10px 20px",
-          fontWeight: 600,
-          cursor: "pointer",
-        }}
-      >
-        ← Back
+    <div className="auth-container" style={{ minHeight: "100vh" }}>
+      <button className="auth-back-btn" onClick={() => navigate("/user/dashboard")}>
+        <FiArrowLeft /> Back to Dashboard
       </button>
 
-      <div
-        style={{
-          background: "#fff",
-          padding: "32px",
-          borderRadius: "16px",
-          boxShadow:
-            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-          maxWidth: "600px",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        <img
-          src={user.image}
-          alt={user.name}
-          style={{
-            width: 120,
-            height: 120,
-            borderRadius: "50%",
-            objectFit: "cover",
-            border: "3px solid #0891b2",
-            marginBottom: "20px",
-          }}
-        />
-        <h1 style={{ fontSize: "28px", fontWeight: 700, color: "#111827" }}>
-          {user.name}
+      <div style={{
+        maxWidth: "800px",
+        margin: "4rem auto",
+        padding: "2rem",
+        background: "var(--auth-card-bg)",
+        borderRadius: "16px",
+        boxShadow: "var(--dashboard-shadow-md)"
+      }}>
+        <h1 style={{
+          fontSize: "2rem",
+          fontWeight: "900",
+          color: "var(--auth-text-primary)",
+          marginBottom: "0.5rem",
+          letterSpacing: "-0.5px"
+        }}>
+          User Profile
         </h1>
-        <p style={{ color: "#6b7280", margin: "8px 0" }}>{user.role}</p>
-        <p style={{ color: "#374151", fontWeight: 500 }}>
-          📍 {user.location}
+        <p style={{
+          fontSize: "0.95rem",
+          color: "var(--auth-text-light)",
+          marginBottom: "2rem"
+        }}>
+          Manage your personal information and profile picture
         </p>
 
-        <div
-          style={{
-            marginTop: "20px",
-            display: "flex",
-            justifyContent: "center",
-            gap: "20px",
-            fontSize: "16px",
-          }}
-        >
-          <span>⭐ Rating: <strong>{user.rating}</strong></span>
-          <span>🌱 Seeds: <strong>{user.seeds}</strong></span>
+        {/* Profile Image Section */}
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "2rem"
+        }}>
+          <div style={{ position: "relative" }}>
+            <div style={{
+              width: "150px",
+              height: "150px",
+              borderRadius: "50%",
+              overflow: "hidden",
+              background: "linear-gradient(135deg, #5B7C99 0%, #7A98B3 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border: "4px solid var(--auth-bg-secondary)"
+            }}>
+              {profileImagePreview ? (
+                <img src={profileImagePreview} alt="Profile" style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover"
+                }} />
+              ) : (
+                <FiUser style={{ fontSize: "4rem", color: "white" }} />
+              )}
+            </div>
+            {isEditing && (
+              <label style={{
+                position: "absolute",
+                bottom: "10px",
+                right: "10px",
+                width: "45px",
+                height: "45px",
+                borderRadius: "50%",
+                background: "#5B7C99",
+                color: "white",
+                border: "3px solid var(--auth-card-bg)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                fontSize: "1.2rem"
+              }}>
+                <FiCamera />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  style={{ display: "none" }}
+                />
+              </label>
+            )}
+          </div>
+        </div>
+
+        {/* Profile Form */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+            <div>
+              <label style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+                color: "var(--auth-text-primary)"
+              }}>
+                Full Name
+              </label>
+              <div style={{ position: "relative" }}>
+                <input
+                  type="text"
+                  value={profileData.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  disabled={!isEditing}
+                  style={{
+                    width: "100%",
+                    padding: "0.85rem 1rem 0.85rem 3rem",
+                    border: "2px solid var(--auth-border)",
+                    borderRadius: "10px",
+                    fontSize: "0.95rem",
+                    fontWeight: "500"
+                  }}
+                />
+                <FiUser style={{
+                  position: "absolute",
+                  left: "1rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "var(--auth-text-light)"
+                }} />
+              </div>
+            </div>
+
+            <div>
+              <label style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+                color: "var(--auth-text-primary)"
+              }}>
+                Email Address
+              </label>
+              <div style={{ position: "relative" }}>
+                <input
+                  type="email"
+                  value={profileData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  disabled={!isEditing}
+                  style={{
+                    width: "100%",
+                    padding: "0.85rem 1rem 0.85rem 3rem",
+                    border: "2px solid var(--auth-border)",
+                    borderRadius: "10px",
+                    fontSize: "0.95rem",
+                    fontWeight: "500"
+                  }}
+                />
+                <FiMail style={{
+                  position: "absolute",
+                  left: "1rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "var(--auth-text-light)"
+                }} />
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+            <div>
+              <label style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+                color: "var(--auth-text-primary)"
+              }}>
+                Phone Number
+              </label>
+              <div style={{ position: "relative" }}>
+                <input
+                  type="tel"
+                  value={profileData.phone}
+                  onChange={(e) => handleInputChange("phone", e.target.value)}
+                  disabled={!isEditing}
+                  style={{
+                    width: "100%",
+                    padding: "0.85rem 1rem 0.85rem 3rem",
+                    border: "2px solid var(--auth-border)",
+                    borderRadius: "10px",
+                    fontSize: "0.95rem",
+                    fontWeight: "500"
+                  }}
+                />
+                <FiPhone style={{
+                  position: "absolute",
+                  left: "1rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "var(--auth-text-light)"
+                }} />
+              </div>
+            </div>
+
+            <div>
+              <label style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+                color: "var(--auth-text-primary)"
+              }}>
+                City
+              </label>
+              <input
+                type="text"
+                value={profileData.city}
+                onChange={(e) => handleInputChange("city", e.target.value)}
+                disabled={!isEditing}
+                style={{
+                  width: "100%",
+                  padding: "0.85rem 1rem",
+                  border: "2px solid var(--auth-border)",
+                  borderRadius: "10px",
+                  fontSize: "0.95rem",
+                  fontWeight: "500"
+                }}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label style={{
+              display: "block",
+              marginBottom: "0.5rem",
+              fontWeight: "700",
+              fontSize: "0.9rem",
+              color: "var(--auth-text-primary)"
+            }}>
+              Address
+            </label>
+            <input
+              type="text"
+              value={profileData.address}
+              onChange={(e) => handleInputChange("address", e.target.value)}
+              disabled={!isEditing}
+              style={{
+                width: "100%",
+                padding: "0.85rem 1rem",
+                border: "2px solid var(--auth-border)",
+                borderRadius: "10px",
+                fontSize: "0.95rem",
+                fontWeight: "500"
+              }}
+            />
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+            <div>
+              <label style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+                color: "var(--auth-text-primary)"
+              }}>
+                State
+              </label>
+              <input
+                type="text"
+                value={profileData.state}
+                onChange={(e) => handleInputChange("state", e.target.value)}
+                disabled={!isEditing}
+                style={{
+                  width: "100%",
+                  padding: "0.85rem 1rem",
+                  border: "2px solid var(--auth-border)",
+                  borderRadius: "10px",
+                  fontSize: "0.95rem",
+                  fontWeight: "500"
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+                color: "var(--auth-text-primary)"
+              }}>
+                PIN Code
+              </label>
+              <input
+                type="text"
+                value={profileData.pincode}
+                onChange={(e) => handleInputChange("pincode", e.target.value)}
+                disabled={!isEditing}
+                style={{
+                  width: "100%",
+                  padding: "0.85rem 1rem",
+                  border: "2px solid var(--auth-border)",
+                  borderRadius: "10px",
+                  fontSize: "0.95rem",
+                  fontWeight: "500"
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+            {!isEditing ? (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="auth-btn"
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.5rem"
+                }}
+              >
+                <FiUser /> Edit Profile
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={handleSave}
+                  className="auth-btn"
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.5rem"
+                  }}
+                >
+                  <FiSave /> Save Changes
+                </button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  style={{
+                    flex: 1,
+                    padding: "0.85rem 1.5rem",
+                    border: "2px solid var(--auth-border)",
+                    background: "transparent",
+                    color: "var(--auth-text-secondary)",
+                    borderRadius: "10px",
+                    fontWeight: "700",
+                    fontSize: "0.95rem",
+                    cursor: "pointer"
+                  }}
+                >
+                  Cancel
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default UserProfile;
+}
