@@ -1,175 +1,959 @@
-/* General Container */
-.home-container {
-  font-family: "Poppins", sans-serif;
-  color: #333;
+/* Lords Aqua Hatcheries - HomePage Styles */
+/* Inspired by UserDashboard blueish-grey theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+/* ============================================
+   CSS VARIABLES - BLUEISH-GREY THEME
+   ============================================ */
+
+:root {
+  /* Primary Colors - Blueish-Grey Professional Palette */
+  --lords-primary: #5B7C99;
+  --lords-primary-dark: #3D5A73;
+  --lords-primary-light: #7A98B3;
+  --lords-secondary: #4A5F7F;
+  --lords-accent: #6B8CAE;
+
+  /* Background Colors */
+  --lords-bg: #E8EDF2;
+  --lords-bg-secondary: #F5F7FA;
+  --lords-card-bg: #ffffff;
+  --lords-overlay: rgba(255, 255, 255, 0.95);
+
+  /* Text Colors */
+  --lords-text-primary: #1E293B;
+  --lords-text-secondary: #475569;
+  --lords-text-light: #64748B;
+
+  /* Border & Shadow */
+  --lords-border: #CBD5E1;
+  --lords-shadow-sm: 0 2px 8px rgba(91, 124, 153, 0.12);
+  --lords-shadow-md: 0 4px 16px rgba(91, 124, 153, 0.18);
+  --lords-shadow-lg: 0 8px 32px rgba(91, 124, 153, 0.24);
+  --lords-shadow-xl: 0 16px 48px rgba(91, 124, 153, 0.3);
+
+  /* Gradients */
+  --lords-gradient-primary: linear-gradient(135deg, #5B7C99 0%, #7A98B3 100%);
+  --lords-gradient-secondary: linear-gradient(135deg, #4A5F7F 0%, #6B8CAE 100%);
+  --lords-gradient-overlay: linear-gradient(135deg, rgba(61, 90, 115, 0.9) 0%, rgba(107, 140, 174, 0.85) 100%);
+
+  /* Spacing */
+  --lords-spacing-xs: 0.5rem;
+  --lords-spacing-sm: 1rem;
+  --lords-spacing-md: 1.5rem;
+  --lords-spacing-lg: 2rem;
+  --lords-spacing-xl: 3rem;
+
+  /* Border Radius */
+  --lords-radius-sm: 8px;
+  --lords-radius-md: 12px;
+  --lords-radius-lg: 16px;
+  --lords-radius-xl: 24px;
+
+  /* Transitions */
+  --lords-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Navbar */
-.navbar {
+/* Dark Mode Theme */
+.lords-dark {
+  --lords-bg: #0f1419;
+  --lords-bg-secondary: #1a1f26;
+  --lords-card-bg: #1e252e;
+  --lords-overlay: rgba(15, 20, 25, 0.95);
+
+  --lords-text-primary: #e8eef3;
+  --lords-text-secondary: #a8b5c3;
+  --lords-text-light: #7a8a9d;
+
+  --lords-border: #2a3441;
+  --lords-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --lords-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --lords-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --lords-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--lords-bg);
+  color: var(--lords-text-primary);
+  line-height: 1.6;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+.lords-root {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.lords-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ============================================
+   FLOATING NAVBAR
+   ============================================ */
+
+.lords-navbar {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 4rem);
+  max-width: 1200px;
+  z-index: 1000;
+  transition: var(--lords-transition);
+}
+
+.lords-navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--lords-card-bg);
+  border-radius: var(--lords-radius-lg);
+  box-shadow: var(--lords-shadow-lg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--lords-border);
+  transition: var(--lords-transition);
+}
+
+.lords-navbar--scrolled::before {
+  box-shadow: var(--lords-shadow-xl);
+}
+
+.lords-navbar-inner {
+  position: relative;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem 3%;
-  background-color: #006d77;
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  padding: 1rem 1.5rem;
+  gap: 1rem;
 }
 
-.navbar-title {
+/* Brand / Logo */
+.lords-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--lords-text-primary);
+  transition: var(--lords-transition);
+}
+
+.lords-brand-link:hover {
+  transform: translateY(-2px);
+}
+
+.lords-logo {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--lords-primary);
+  box-shadow: 0 4px 12px rgba(91, 124, 153, 0.3);
+  background: white;
+  padding: 4px;
+}
+
+.lords-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.lords-brand-title {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 800;
+  color: var(--lords-text-primary);
+  line-height: 1.2;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  letter-spacing: -0.5px;
 }
 
-.logIn-btn {
-  padding: 0.5rem 1.2rem;
-  background-color: #83c5be;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.logIn-btn:hover {
-  background-color: #52b2a2;
-}
-
-/* Hero Section */
-.hero-section {
+/* Desktop Navigation */
+.lords-nav-desktop {
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 5rem 10%;
-  background: linear-gradient(135deg, #dff6ff, #83c5be);
-  text-align: center;
+  gap: 0.5rem;
 }
 
-.hero-section h1 {
-  font-size: 2.5rem;
-  color: #006d77;
-  margin-bottom: 1rem;
-}
-
-.hero-section p {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-}
-
-.cta-btn {
-  padding: 0.75rem 1.5rem;
-  background-color: #006d77;
-  color: white;
+.lords-nav-link {
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
+  color: var(--lords-text-secondary);
+  background: transparent;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--lords-radius-sm);
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: var(--lords-transition);
+  text-decoration: none;
 }
 
-.cta-btn:hover {
-  background-color: #004f55;
+.lords-nav-link:hover {
+  color: var(--lords-primary);
+  background: rgba(91, 124, 153, 0.1);
 }
 
-/* Features / About Section */
-.info-section {
-  padding: 4rem 10%;
-  background-color: #f7f9fc;
-  text-align: center;
-}
-
-.info-section h2 {
-  font-size: 2rem;
-  color: #006d77;
-  margin-bottom: 1.5rem;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.feature-card {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.feature-card h3 {
-  color: #006d77;
-  margin-bottom: 0.5rem;
-}
-
-/* Reviews Section */
-.reviews-section {
-  padding: 4rem 10%;
-  background-color: #ffffff;
-  text-align: center;
-}
-
-.reviews {
+.lords-login-group {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1rem;
 }
 
-.review-card {
-  max-width: 300px;
+/* Buttons */
+.lords-btn {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--lords-radius-sm);
+  cursor: pointer;
+  transition: var(--lords-transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+}
+
+.lords-btn-primary {
+  background: var(--lords-gradient-primary);
+  color: white;
+  box-shadow: var(--lords-shadow-sm);
+}
+
+.lords-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--lords-shadow-md);
+}
+
+.lords-btn-outline {
+  background: transparent;
+  color: var(--lords-primary);
+  border: 2px solid var(--lords-primary);
+}
+
+.lords-btn-outline:hover {
+  background: var(--lords-primary-dark);
+  color: white;
+}
+
+.lords-btn-lg {
+  padding: 0.875rem 2rem;
+  font-size: 1.05rem;
+}
+
+.lords-btn.block {
+  width: 100%;
+}
+
+/* Icon Buttons */
+.lords-icon-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--lords-radius-sm);
+  color: var(--lords-text-secondary);
+  cursor: pointer;
+  transition: var(--lords-transition);
+}
+
+.lords-icon-btn:hover {
+  background: rgba(91, 124, 153, 0.1);
+  color: var(--lords-primary);
+}
+
+.lords-theme-toggle {
+  margin-left: 0.5rem;
+}
+
+/* Mobile Navigation */
+.lords-nav-mobile {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lords-mobile-drawer {
+  position: fixed;
+  top: 100px;
+  right: 2rem;
+  width: 300px;
+  background: var(--lords-card-bg);
+  border-radius: var(--lords-radius-lg);
+  box-shadow: var(--lords-shadow-xl);
+  border: 1px solid var(--lords-border);
+  transform: translateX(400px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.lords-mobile-drawer.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.lords-mobile-links {
   padding: 1.5rem;
-  border-radius: 12px;
-  background-color: #dff6ff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lords-mobile-links button {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--lords-text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--lords-radius-sm);
+  cursor: pointer;
+  transition: var(--lords-transition);
+}
+
+.lords-mobile-links button:hover {
+  background: rgba(91, 124, 153, 0.1);
+  color: var(--lords-primary);
+}
+
+.lords-mobile-divider {
+  height: 1px;
+  background: var(--lords-border);
+  margin: 0.5rem 0;
+}
+
+/* ============================================
+   MAIN LAYOUT
+   ============================================ */
+
+.lords-main {
+  margin-top: 100px;
+  min-height: 100vh;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.lords-hero {
+  position: relative;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 4rem 0;
+}
+
+.lords-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--lords-gradient-overlay);
+  background-image:
+    url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=1920&auto=format&fit=crop'),
+    var(--lords-gradient-overlay);
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+  z-index: -1;
+}
+
+.lords-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--lords-gradient-overlay);
+}
+
+.lords-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.lords-hero-text {
+  max-width: 700px;
+}
+
+.lords-hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: white;
+  margin-bottom: var(--lords-spacing-md);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -1px;
+}
+
+.lords-gradient-text {
+  background: linear-gradient(135deg, #E8EDF2 0%, #FFFFFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lords-hero-subtitle {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: var(--lords-spacing-xl);
+  font-weight: 500;
+}
+
+.lords-hero-ctas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Wave decoration */
+.lords-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.lords-wave svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 80px;
+}
+
+.lords-wave-path {
+  fill: var(--lords-bg);
+}
+
+/* ============================================
+   STATISTICS SECTION
+   ============================================ */
+
+.lords-stats-section {
+  padding: var(--lords-spacing-xl) 0;
+  background: var(--lords-bg);
+}
+
+.lords-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--lords-spacing-lg);
+}
+
+.lords-stat-card {
+  background: var(--lords-card-bg);
+  padding: var(--lords-spacing-xl);
+  border-radius: var(--lords-radius-lg);
+  box-shadow: var(--lords-shadow-md);
+  text-align: center;
+  border: 1px solid var(--lords-border);
+  transition: var(--lords-transition);
+}
+
+.lords-stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--lords-shadow-lg);
+}
+
+.lords-stat-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--lords-spacing-md);
+  border-radius: var(--lords-radius-md);
+  background: var(--lords-gradient-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+}
+
+.lords-stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--lords-text-primary);
+  margin-bottom: 0.5rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.lords-stat-label {
+  font-size: 1rem;
+  color: var(--lords-text-secondary);
+  font-weight: 500;
+}
+
+/* ============================================
+   FEATURES SECTION
+   ============================================ */
+
+.lords-features-section {
+  padding: var(--lords-spacing-xl) 0;
+  background: var(--lords-bg-secondary);
+}
+
+.lords-section-header {
+  text-align: center;
+  margin-bottom: var(--lords-spacing-xl);
+}
+
+.lords-section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--lords-text-primary);
+  margin-bottom: var(--lords-spacing-sm);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.lords-section-subtitle {
+  font-size: 1.125rem;
+  color: var(--lords-text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.lords-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--lords-spacing-lg);
+}
+
+.lords-feature-card {
+  background: var(--lords-card-bg);
+  padding: var(--lords-spacing-xl);
+  border-radius: var(--lords-radius-lg);
+  box-shadow: var(--lords-shadow-sm);
+  border: 1px solid var(--lords-border);
+  transition: var(--lords-transition);
+}
+
+.lords-feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--lords-shadow-lg);
+  border-color: var(--lords-primary);
+}
+
+.lords-feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--lords-radius-md);
+  background: var(--lords-gradient-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: var(--lords-spacing-md);
+}
+
+.lords-feature-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--lords-text-primary);
+  margin-bottom: var(--lords-spacing-sm);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.lords-feature-desc {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--lords-text-secondary);
+}
+
+/* ============================================
+   ABOUT SECTION
+   ============================================ */
+
+.lords-about-section {
+  padding: var(--lords-spacing-xl) 0;
+  background: var(--lords-bg);
+}
+
+.lords-about-content {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--lords-spacing-xl);
+  align-items: center;
+}
+
+.lords-about-para {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--lords-text-secondary);
+  margin-bottom: var(--lords-spacing-md);
+}
+
+.lords-about-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: var(--lords-spacing-lg);
+}
+
+.lords-about-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: var(--lords-text-secondary);
+}
+
+.lords-check-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--lords-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.lords-about-img-wrapper {
+  border-radius: var(--lords-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--lords-shadow-lg);
+}
+
+.lords-about-img-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================
+   CONTACT SECTION
+   ============================================ */
+
+.lords-contact-section {
+  padding: var(--lords-spacing-xl) 0;
+  background: var(--lords-bg-secondary);
+}
+
+.lords-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--lords-spacing-lg);
+}
+
+.lords-contact-card {
+  background: var(--lords-card-bg);
+  padding: var(--lords-spacing-xl);
+  border-radius: var(--lords-radius-lg);
+  box-shadow: var(--lords-shadow-sm);
+  border: 1px solid var(--lords-border);
+  text-align: center;
+  transition: var(--lords-transition);
+}
+
+.lords-contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lords-shadow-md);
+}
+
+.lords-contact-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--lords-radius-md);
+  background: var(--lords-gradient-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto var(--lords-spacing-md);
+}
+
+.lords-contact-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--lords-text-primary);
+  margin-bottom: var(--lords-spacing-sm);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.lords-contact-info {
+  font-size: 1rem;
+  color: var(--lords-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+/* ============================================
+   DOWNLOAD APP SECTION
+   ============================================ */
+
+.lords-download-section {
+  padding: var(--lords-spacing-xl) 0;
+  background: var(--lords-bg);
+}
+
+.lords-download-card {
+  background: var(--lords-gradient-primary);
+  padding: var(--lords-spacing-xl);
+  border-radius: var(--lords-radius-xl);
+  box-shadow: var(--lords-shadow-xl);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: var(--lords-spacing-xl);
+  align-items: center;
+}
+
+.lords-download-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: var(--lords-spacing-sm);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.lords-download-subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: var(--lords-spacing-lg);
+  line-height: 1.6;
+}
+
+.lords-playstore-btn img {
+  height: 60px;
+  width: auto;
+}
+
+.lords-download-image {
+  border-radius: var(--lords-radius-lg);
+  overflow: hidden;
+}
+
+.lords-download-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.lords-footer {
+  background: var(--lords-text-primary);
+  color: rgba(255, 255, 255, 0.8);
+  padding: var(--lords-spacing-xl) 0 var(--lords-spacing-lg);
+}
+
+.lords-footer-content {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr;
+  gap: var(--lords-spacing-xl);
+}
+
+.lords-footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: var(--lords-spacing-md);
+}
+
+.lords-footer-logo img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.lords-footer-logo span {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.lords-footer-desc {
+  font-size: 1rem;
+  margin-bottom: var(--lords-spacing-md);
+  line-height: 1.6;
+}
+
+.lords-copyright {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.lords-footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lords-spacing-lg);
+}
+
+.lords-footer-col h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: var(--lords-spacing-md);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.lords-footer-col button,
+.lords-footer-col a {
+  display: block;
+  padding: 0.375rem 0;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: var(--lords-transition);
+  text-decoration: none;
   text-align: left;
 }
 
-.review-card p {
-  margin-bottom: 1rem;
-  font-style: italic;
-}
-
-/* Footer */
-.footer-section {
-  background-color: #006d77;
+.lords-footer-col button:hover,
+.lords-footer-col a:hover {
   color: white;
-  text-align: center;
-  padding: 2rem 5%;
+  transform: translateX(4px);
 }
 
-.footer-section h3 {
-  margin-bottom: 1rem;
-}
+/* ============================================
+   WHATSAPP FLOAT
+   ============================================ */
 
-.footer-section p {
-  margin: 0.2rem 0;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .hero-section, .info-section, .reviews-section {
-    padding: 3rem 5%;
-  }
-
-  .reviews {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-.nav-buttons {
+.lords-whatsapp-float {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  color: white;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 3rem;
+  justify-content: center;
+  box-shadow: var(--lords-shadow-xl);
+  transition: var(--lords-transition);
+  z-index: 999;
+}
+
+.lords-whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 20px 30px rgba(37, 211, 102, 0.4);
+}
+
+.lords-whatsapp-float svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .lords-container {
+    padding: 0 1.5rem;
+  }
+
+  .lords-navbar {
+    width: calc(100% - 2rem);
+    top: 10px;
+  }
+
+  .lords-about-content,
+  .lords-download-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .lords-nav-desktop {
+    display: none;
+  }
+
+  .lords-nav-mobile {
+    display: flex;
+  }
+
+  .lords-hero-title {
+    font-size: 2.5rem;
+  }
+
+  .lords-hero-subtitle {
+    font-size: 1.0625rem;
+  }
+
+  .lords-section-title {
+    font-size: 2rem;
+  }
+
+  .lords-stats-grid,
+  .lords-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lords-footer-content,
+  .lords-footer-links {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .lords-container {
+    padding: 0 1rem;
+  }
+
+  .lords-navbar {
+    width: calc(100% - 1rem);
+    top: 5px;
+  }
+
+  .lords-navbar-inner {
+    padding: 0.75rem 1rem;
+  }
+
+  .lords-logo {
+    height: 45px;
+    width: 45px;
+  }
+
+  .lords-brand-title {
+    font-size: 1.125rem;
+  }
+
+  .lords-hero-title {
+    font-size: 2rem;
+  }
+
+  .lords-btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
 }
