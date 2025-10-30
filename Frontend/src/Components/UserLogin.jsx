@@ -23,6 +23,13 @@ const UserLogin = () => {
   const [newPassword, setNewPassword] = useState("");
   const [forgotPasswordOtpSent, setForgotPasswordOtpSent] = useState(false);
 
+  // Loading states
+  const [isLoadingSendOtp, setIsLoadingSendOtp] = useState(false);
+  const [isLoadingVerifyOtp, setIsLoadingVerifyOtp] = useState(false);
+  const [isLoadingPasswordLogin, setIsLoadingPasswordLogin] = useState(false);
+  const [isLoadingCreatePassword, setIsLoadingCreatePassword] = useState(false);
+  const [isLoadingForgotPassword, setIsLoadingForgotPassword] = useState(false);
+
   const [theme, setTheme] = useState(() => {
     try {
       return localStorage.getItem("lords-aqua-theme") || "light";
@@ -73,6 +80,8 @@ const UserLogin = () => {
       }
     }
 
+    setIsLoadingSendOtp(true);
+
     try {
       // Add +91 country code to phone number
       const phoneNumberWithCode = `+91${phoneNumber}`;
@@ -91,22 +100,33 @@ const UserLogin = () => {
       });
 
       const data = await response.json();
-      // For testing purposes 
+
       if (response.ok && data.success) {
         setOtpSent(true);
         setCountdown(30);
         alert(data.message || 'OTP sent successfully to your mobile number!');
       } else {
-        alert(data.message || 'Failed to send OTP. Please try again.');
+        // Handle specific error cases
+        if (data.notRegistered) {
+          alert(data.message || 'This mobile number is not registered. Please sign up first.');
+        } else if (data.pendingApproval) {
+          // Navigate to pending approval page
+          navigate("/pending-approval");
+        } else {
+          alert(data.message || 'Failed to send OTP. Please try again.');
+        }
       }
     } catch (error) {
       console.error('Error sending OTP:', error);
       alert('Failed to send OTP. Please check your connection and try again.');
+    } finally {
+      setIsLoadingSendOtp(false);
     }
   };
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
+    setIsLoadingVerifyOtp(true);
 
     try {
       // Add +91 country code to phone number
@@ -162,6 +182,8 @@ const UserLogin = () => {
     } catch (error) {
       console.error('Error verifying OTP:', error);
       alert('Failed to verify OTP. Please check your connection and try again.');
+    } finally {
+      setIsLoadingVerifyOtp(false);
     }
   };
 
@@ -191,7 +213,16 @@ const UserLogin = () => {
           setShowCreatePassword(true);
         }
       } else {
-        alert(data.message || 'Failed to check password status');
+        // Handle specific error cases
+        if (data.notRegistered) {
+          alert(data.message || 'This mobile number is not registered. Please sign up first.');
+          setLoginMethod("otp"); // Switch back to OTP login
+        } else if (data.pendingApproval) {
+          // Navigate to pending approval page
+          navigate("/pending-approval");
+        } else {
+          alert(data.message || 'Failed to check password status');
+        }
       }
     } catch (error) {
       console.error('Error checking password:', error);
@@ -205,6 +236,8 @@ const UserLogin = () => {
       alert("Please enter mobile number and password");
       return;
     }
+
+    setIsLoadingPasswordLogin(true);
 
     try {
       // Add +91 country code to phone number
@@ -227,11 +260,21 @@ const UserLogin = () => {
         navigate("/user-dashboard");
         resetForm();
       } else {
-        alert(data.message || 'Login failed. Please check your credentials.');
+        // Handle specific error cases
+        if (data.notRegistered) {
+          alert(data.message || 'This mobile number is not registered. Please sign up first.');
+        } else if (data.pendingApproval) {
+          // Navigate to pending approval page
+          navigate("/pending-approval");
+        } else {
+          alert(data.message || 'Login failed. Please check your credentials.');
+        }
       }
     } catch (error) {
       console.error('Error during password login:', error);
       alert('Failed to login. Please check your connection and try again.');
+    } finally {
+      setIsLoadingPasswordLogin(false);
     }
   };
 
@@ -252,6 +295,8 @@ const UserLogin = () => {
       alert("Password must be at least 6 characters long");
       return;
     }
+
+    setIsLoadingCreatePassword(true);
 
     try {
       const phoneNumberWithCode = `+91${phoneNumber}`;
@@ -282,6 +327,8 @@ const UserLogin = () => {
     } catch (error) {
       console.error('Error creating password:', error);
       alert('Failed to create password. Please try again.');
+    } finally {
+      setIsLoadingCreatePassword(false);
     }
   };
 
@@ -291,7 +338,9 @@ const UserLogin = () => {
       return;
     }
 
-    try {
+    setIsLoadingForgotPassword(true);
+
+    try{
       const phoneNumberWithCode = `+91${phoneNumber}`;
 
       const response = await fetch('http://localhost:3000/api/Auth/User-forgot-password-otp', {
@@ -314,6 +363,8 @@ const UserLogin = () => {
     } catch (error) {
       console.error('Error sending forgot password OTP:', error);
       alert('Failed to send OTP. Please try again.');
+    } finally {
+      setIsLoadingForgotPassword(false);
     }
   };
 
@@ -484,19 +535,19 @@ const UserLogin = () => {
                     <button
                       className="send-btn"
                       onClick={handleSendOtp}
-                      disabled={!phoneNumber || phoneNumber.length < 10}
+                      disabled={!phoneNumber || phoneNumber.length < 10 || isLoadingSendOtp}
                       style={{ marginTop: "0.5rem" }}
                     >
-                      Send OTP
+                      {isLoadingSendOtp ? "Sending OTP..." : "Send OTP"}
                     </button>
                   ) : (
                     <button
                       className="send-btn"
                       onClick={handleSendOtp}
-                      disabled={countdown > 0}
+                      disabled={countdown > 0 || isLoadingSendOtp}
                       style={{ marginTop: "0.5rem" }}
                     >
-                      {countdown > 0 ? `Resend in ${countdown}s` : "Resend OTP"}
+                      {isLoadingSendOtp ? "Sending..." : countdown > 0 ? `Resend in ${countdown}s` : "Resend OTP"}
                     </button>
                   )}
 
@@ -509,9 +560,10 @@ const UserLogin = () => {
                         value={enteredOtp}
                         onChange={(e) => setEnteredOtp(e.target.value)}
                         required
+                        disabled={isLoadingVerifyOtp}
                       />
-                      <button type="submit" className="verify-btn">
-                        Verify OTP & Login
+                      <button type="submit" className="verify-btn" disabled={isLoadingVerifyOtp}>
+                        {isLoadingVerifyOtp ? "Verifying..." : "Verify OTP & Login"}
                       </button>
                     </form>
                   )}
@@ -563,19 +615,19 @@ const UserLogin = () => {
                         <button
                           className="send-btn"
                           onClick={handleForgotPasswordSendOtp}
-                          disabled={!phoneNumber || phoneNumber.length < 10}
+                          disabled={!phoneNumber || phoneNumber.length < 10 || isLoadingForgotPassword}
                           style={{ marginTop: "0.5rem" }}
                         >
-                          Send OTP for Password Reset
+                          {isLoadingForgotPassword ? "Sending OTP..." : "Send OTP for Password Reset"}
                         </button>
                       ) : (
                         <button
                           className="send-btn"
                           onClick={handleForgotPasswordSendOtp}
-                          disabled={countdown > 0}
+                          disabled={countdown > 0 || isLoadingForgotPassword}
                           style={{ marginTop: "0.5rem" }}
                         >
-                          {countdown > 0 ? `Resend in ${countdown}s` : "Resend OTP"}
+                          {isLoadingForgotPassword ? "Sending..." : countdown > 0 ? `Resend in ${countdown}s` : "Resend OTP"}
                         </button>
                       )}
 
@@ -696,8 +748,8 @@ const UserLogin = () => {
                         />
                       </div>
 
-                      <button type="submit" className="verify-btn">
-                        Create Password & Login
+                      <button type="submit" className="verify-btn" disabled={isLoadingCreatePassword}>
+                        {isLoadingCreatePassword ? "Creating Password..." : "Create Password & Login"}
                       </button>
                     </form>
                   ) : (
@@ -710,6 +762,7 @@ const UserLogin = () => {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           required
+                          disabled={isLoadingPasswordLogin}
                           style={{ paddingLeft: "2.75rem" }}
                         />
                         <FiLock
@@ -723,8 +776,8 @@ const UserLogin = () => {
                         />
                       </div>
 
-                      <button type="submit" className="verify-btn">
-                        Login to Dashboard
+                      <button type="submit" className="verify-btn" disabled={isLoadingPasswordLogin}>
+                        {isLoadingPasswordLogin ? "Logging in..." : "Login to Dashboard"}
                       </button>
 
                       <p className="signup-text">
@@ -852,19 +905,19 @@ const UserLogin = () => {
                 <button
                   className="send-btn"
                   onClick={handleSendOtp}
-                  disabled={!name.trim() || !phoneNumber || phoneNumber.length < 10}
+                  disabled={!name.trim() || !phoneNumber || phoneNumber.length < 10 || isLoadingSendOtp}
                   style={{ marginTop: "0.5rem" }}
                 >
-                  Send OTP
+                  {isLoadingSendOtp ? "Sending OTP..." : "Send OTP"}
                 </button>
               ) : (
                 <button
                   className="send-btn"
                   onClick={handleSendOtp}
-                  disabled={countdown > 0}
+                  disabled={countdown > 0 || isLoadingSendOtp}
                   style={{ marginTop: "0.5rem" }}
                 >
-                  {countdown > 0 ? `Resend in ${countdown}s` : "Resend OTP"}
+                  {isLoadingSendOtp ? "Sending..." : countdown > 0 ? `Resend in ${countdown}s` : "Resend OTP"}
                 </button>
               )}
 
@@ -877,9 +930,10 @@ const UserLogin = () => {
                     value={enteredOtp}
                     onChange={(e) => setEnteredOtp(e.target.value)}
                     required
+                    disabled={isLoadingVerifyOtp}
                   />
-                  <button type="submit" className="verify-btn">
-                    Verify & Create Account
+                  <button type="submit" className="verify-btn" disabled={isLoadingVerifyOtp}>
+                    {isLoadingVerifyOtp ? "Verifying..." : "Verify & Create Account"}
                   </button>
                 </form>
               )}
