@@ -15,6 +15,14 @@ const UserLogin = () => {
   const [enteredOtp, setEnteredOtp] = useState("");
   const [loginMethod, setLoginMethod] = useState("otp");
 
+  // Password management states
+  const [hasPassword, setHasPassword] = useState(null); // null = not checked, true/false = result
+  const [showCreatePassword, setShowCreatePassword] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [forgotPasswordOtpSent, setForgotPasswordOtpSent] = useState(false);
+
   const [theme, setTheme] = useState(() => {
     try {
       return localStorage.getItem("lords-aqua-theme") || "light";
@@ -157,6 +165,40 @@ const UserLogin = () => {
     }
   };
 
+  // Check if user has password when switching to password login
+  const checkUserPassword = async () => {
+    if (phoneNumber.length !== 10) {
+      alert("Please enter a valid 10-digit mobile number first");
+      return;
+    }
+
+    try {
+      const phoneNumberWithCode = `+91${phoneNumber}`;
+
+      const response = await fetch('http://localhost:3000/api/Auth/User-check-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phoneNumber: phoneNumberWithCode }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setHasPassword(data.hasPassword);
+        if (!data.hasPassword) {
+          setShowCreatePassword(true);
+        }
+      } else {
+        alert(data.message || 'Failed to check password status');
+      }
+    } catch (error) {
+      console.error('Error checking password:', error);
+      alert('Failed to check password status. Please try again.');
+    }
+  };
+
   const handlePasswordLogin = async (e) => {
     e.preventDefault();
     if (!phoneNumber || !password) {
@@ -168,7 +210,7 @@ const UserLogin = () => {
       // Add +91 country code to phone number
       const phoneNumberWithCode = `+91${phoneNumber}`;
 
-      const response = await fetch('http://localhost:3000/api/User-login-password', {
+      const response = await fetch('http://localhost:3000/api/Auth/User-login-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -190,6 +232,141 @@ const UserLogin = () => {
     } catch (error) {
       console.error('Error during password login:', error);
       alert('Failed to login. Please check your connection and try again.');
+    }
+  };
+
+  const handleCreatePassword = async (e) => {
+    e.preventDefault();
+
+    if (!password || !confirmPassword) {
+      alert("Please enter both password and confirm password");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+
+    try {
+      const phoneNumberWithCode = `+91${phoneNumber}`;
+
+      const response = await fetch('http://localhost:3000/api/Auth/User-create-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phoneNumber: phoneNumberWithCode,
+          password,
+          confirmPassword
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert(data.message || 'Password created successfully!');
+        setHasPassword(true);
+        setShowCreatePassword(false);
+        setPassword("");
+        setConfirmPassword("");
+      } else {
+        alert(data.message || 'Failed to create password');
+      }
+    } catch (error) {
+      console.error('Error creating password:', error);
+      alert('Failed to create password. Please try again.');
+    }
+  };
+
+  const handleForgotPasswordSendOtp = async () => {
+    if (phoneNumber.length !== 10) {
+      alert("Please enter a valid 10-digit mobile number");
+      return;
+    }
+
+    try {
+      const phoneNumberWithCode = `+91${phoneNumber}`;
+
+      const response = await fetch('http://localhost:3000/api/Auth/User-forgot-password-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phoneNumber: phoneNumberWithCode }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setForgotPasswordOtpSent(true);
+        setCountdown(30);
+        alert(data.message || 'OTP sent successfully for password reset!');
+      } else {
+        alert(data.message || 'Failed to send OTP');
+      }
+    } catch (error) {
+      console.error('Error sending forgot password OTP:', error);
+      alert('Failed to send OTP. Please try again.');
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+
+    if (!enteredOtp || !newPassword || !confirmPassword) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+
+    try {
+      const phoneNumberWithCode = `+91${phoneNumber}`;
+
+      const response = await fetch('http://localhost:3000/api/Auth/User-reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phoneNumber: phoneNumberWithCode,
+          otpCode: enteredOtp,
+          newPassword,
+          confirmPassword
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert(data.message || 'Password reset successfully!');
+        setShowForgotPassword(false);
+        setForgotPasswordOtpSent(false);
+        setHasPassword(true);
+        setEnteredOtp("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        alert(data.message || 'Failed to reset password');
+      }
+    } catch (error) {
+      console.error('Error resetting password:', error);
+      alert('Failed to reset password. Please try again.');
     }
   };
 
@@ -340,66 +517,224 @@ const UserLogin = () => {
                   )}
                 </>
               ) : (
-                <form onSubmit={handlePasswordLogin} className="password-login">
-                  <div style={{ position: "relative" }}>
-                    <span
-                      style={{
-                        position: "absolute",
-                        left: "2.75rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        color: "var(--auth-text)",
-                        fontWeight: "500",
-                        pointerEvents: "none",
-                        zIndex: 1
-                      }}
-                    >
-                      +91
-                    </span>
-                    <input
-                      type="tel"
-                      placeholder="Enter Mobile Number"
-                      maxLength="10"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      required
-                      style={{ paddingLeft: "5rem" }}
-                    />
-                    <FiSmartphone
-                      style={{
-                        position: "absolute",
-                        left: "1rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        color: "var(--auth-text-light)"
-                      }}
-                    />
+                <>
+                  {/* Phone Number Input */}
+                  <div className="auth-input-group">
+                    <div style={{ position: "relative" }}>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "2.75rem",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          color: "var(--auth-text)",
+                          fontWeight: "500",
+                          pointerEvents: "none",
+                          zIndex: 1
+                        }}
+                      >
+                        +91
+                      </span>
+                      <input
+                        type="tel"
+                        placeholder="Enter Mobile Number"
+                        maxLength="10"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onBlur={checkUserPassword}
+                        style={{ paddingLeft: "5rem" }}
+                      />
+                      <FiSmartphone
+                        style={{
+                          position: "absolute",
+                          left: "1rem",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          color: "var(--auth-text-light)"
+                        }}
+                      />
+                    </div>
                   </div>
 
-                  <div style={{ position: "relative" }}>
-                    <input
-                      type="password"
-                      placeholder="Enter Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      style={{ paddingLeft: "2.75rem" }}
-                    />
-                    <FiLock
-                      style={{
-                        position: "absolute",
-                        left: "1rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        color: "var(--auth-text-light)"
-                      }}
-                    />
-                  </div>
+                  {/* Show Forgot Password Flow */}
+                  {showForgotPassword ? (
+                    <>
+                      {!forgotPasswordOtpSent ? (
+                        <button
+                          className="send-btn"
+                          onClick={handleForgotPasswordSendOtp}
+                          disabled={!phoneNumber || phoneNumber.length < 10}
+                          style={{ marginTop: "0.5rem" }}
+                        >
+                          Send OTP for Password Reset
+                        </button>
+                      ) : (
+                        <button
+                          className="send-btn"
+                          onClick={handleForgotPasswordSendOtp}
+                          disabled={countdown > 0}
+                          style={{ marginTop: "0.5rem" }}
+                        >
+                          {countdown > 0 ? `Resend in ${countdown}s` : "Resend OTP"}
+                        </button>
+                      )}
 
-                  <button type="submit" className="verify-btn">
-                    Login to Dashboard
-                  </button>
-                </form>
+                      {forgotPasswordOtpSent && (
+                        <form onSubmit={handleResetPassword} className="password-login">
+                          <input
+                            type="text"
+                            placeholder="Enter 6-digit OTP"
+                            maxLength="6"
+                            value={enteredOtp}
+                            onChange={(e) => setEnteredOtp(e.target.value)}
+                            required
+                          />
+
+                          <div style={{ position: "relative" }}>
+                            <input
+                              type="password"
+                              placeholder="New Password"
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                              required
+                              style={{ paddingLeft: "2.75rem" }}
+                            />
+                            <FiLock
+                              style={{
+                                position: "absolute",
+                                left: "1rem",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                color: "var(--auth-text-light)"
+                              }}
+                            />
+                          </div>
+
+                          <div style={{ position: "relative" }}>
+                            <input
+                              type="password"
+                              placeholder="Confirm New Password"
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                              required
+                              style={{ paddingLeft: "2.75rem" }}
+                            />
+                            <FiLock
+                              style={{
+                                position: "absolute",
+                                left: "1rem",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                color: "var(--auth-text-light)"
+                              }}
+                            />
+                          </div>
+
+                          <button type="submit" className="verify-btn">
+                            Reset Password
+                          </button>
+                        </form>
+                      )}
+
+                      <p className="signup-text">
+                        Remember your password?{" "}
+                        <span className="signup-link" onClick={() => {
+                          setShowForgotPassword(false);
+                          setForgotPasswordOtpSent(false);
+                          setEnteredOtp("");
+                          setNewPassword("");
+                          setConfirmPassword("");
+                        }}>
+                          Back to Login
+                        </span>
+                      </p>
+                    </>
+                  ) : showCreatePassword ? (
+                    /* Show Create Password Form */
+                    <form onSubmit={handleCreatePassword} className="password-login">
+                      <p style={{ fontSize: "0.9rem", color: "var(--auth-text-light)", marginBottom: "1rem" }}>
+                        You haven't set a password yet. Please create one to continue.
+                      </p>
+
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type="password"
+                          placeholder="Create Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                          style={{ paddingLeft: "2.75rem" }}
+                        />
+                        <FiLock
+                          style={{
+                            position: "absolute",
+                            left: "1rem",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            color: "var(--auth-text-light)"
+                          }}
+                        />
+                      </div>
+
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type="password"
+                          placeholder="Confirm Password"
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          required
+                          style={{ paddingLeft: "2.75rem" }}
+                        />
+                        <FiLock
+                          style={{
+                            position: "absolute",
+                            left: "1rem",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            color: "var(--auth-text-light)"
+                          }}
+                        />
+                      </div>
+
+                      <button type="submit" className="verify-btn">
+                        Create Password & Login
+                      </button>
+                    </form>
+                  ) : (
+                    /* Show Normal Password Login Form */
+                    <form onSubmit={handlePasswordLogin} className="password-login">
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type="password"
+                          placeholder="Enter Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                          style={{ paddingLeft: "2.75rem" }}
+                        />
+                        <FiLock
+                          style={{
+                            position: "absolute",
+                            left: "1rem",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            color: "var(--auth-text-light)"
+                          }}
+                        />
+                      </div>
+
+                      <button type="submit" className="verify-btn">
+                        Login to Dashboard
+                      </button>
+
+                      <p className="signup-text">
+                        <span className="signup-link" onClick={() => setShowForgotPassword(true)}>
+                          Forgot Password?
+                        </span>
+                      </p>
+                    </form>
+                  )}
+                </>
               )}
 
               <p className="signup-text">
