@@ -96,7 +96,7 @@ const AboutTabs = () => {
             <div className="tab-content-highlights">
               {content.highlights.map((item, index) => (
                 <motion.div
-                  key={index}
+                  key={index} 
                   className="highlight-item"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -299,7 +299,7 @@ const HomePage = () => {
                 <span className="lords-gradient-text">Hatchery World</span>
               </h1>
               <p className="lords-hero-subtitle">
-                "Raising prawns, not problems" - Redefining aquaculture with innovation, sustainability, and science to deliver healthy, high-quality prawn seeds for better yields and better profits.
+                 Redefining aquaculture with innovation, sustainability, and science to deliver healthy, high-quality prawn seeds for better yields and better profits.
               </p>
               <div className="lords-hero-ctas">
                 <button className="lords-btn lords-btn-primary lords-btn-lg" onClick={() => navigate("/user-login")}>
