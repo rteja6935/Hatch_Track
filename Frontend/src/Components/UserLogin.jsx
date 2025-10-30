@@ -106,8 +106,8 @@ const UserLogin = () => {
 
       // Call backend API based on signup or login
       const endpoint = isSignUp
-        ? 'http://localhost:3000/api/User-signup-otpVerify'
-        : 'http://localhost:3000/api/User-login-otpVerify';
+        ? 'http://localhost:3000/api/Auth/User-signup-otpVerify'
+        : 'http://localhost:3000/api/Auth/User-login-otpVerify';
 
       const requestBody = isSignUp
         ? {
