@@ -1,7 +1,7 @@
-const User = require('../model/User.model');
-const Hatchery = require('../model/Hatchery.model');
-const Upload = require('../model/Upload.model');
-const Notification = require('../model/Notification.model');
+const User = require('../models/User.model');
+const Hatchery = require('../models/Hatchery.model');
+const Upload = require('../models/Upload.model');
+const Notification = require('../models/Notification.model');
 
 // ===================== GET USER PROFILE =====================
 exports.getUserProfile = async (req, res) => {

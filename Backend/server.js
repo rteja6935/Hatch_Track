@@ -36,8 +36,6 @@
 // app.listen(3000, () => {
 //   console.log('Server is running on port 3000');
 // })
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -51,18 +49,27 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Connect MongoDB using Mongoose
-mongoose.connect(process.env.DBurl)
-.then(() => console.log('✅ Connected to MongoDB via Mongoose'))
-.catch((err) => console.error('❌ Database connection error:', err));
+// ✅ Connect MongoDB
+mongoose.connect(process.env.DBurl, { dbName: 'hatchseed' })
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch((err) => console.error('❌ DB Connection Error:', err));
 
-// Import routes
+// Routes
 const authRoutes = require('./routes/Auth.route');
 const userDashboardRoutes = require('./routes/UserDashboard.route');
 
 // Use routes
-app.use('/api', authRoutes);
+
 app.use('/api', userDashboardRoutes);
+const userProfileRoutes = require('./routes/UserProfile.route');
+const adminRoutes = require('./routes/AdminProfile.route');
+const otpRoutes = require('./routes/Otp.route'); // 👈 Add this
+
+// Use routes
+app.use('/api', authRoutes);
+app.use('/api/user', userProfileRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/otp', otpRoutes); // 👈 Add OTP route
 
 // Start server
-app.listen(3000, () => console.log('🚀 Server running on port 3000'));
+app.listen(process.env.PORT || 3000, () => console.log(`🚀 Server running`));

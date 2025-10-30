@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from './Components/HomePage';
 import UserLogin from './Components/UserLogin';
@@ -21,7 +21,82 @@ import { FiUsers, FiClock, FiCheckCircle, FiXCircle, FiMessageSquare, FiSettings
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0); // optional state, remove if not needed
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let time = 0;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const animate = () => {
+      time += 0.005;
+      
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, `rgba(0, 40, 80, ${0.9 + Math.sin(time) * 0.1})`);
+      gradient.addColorStop(0.3, `rgba(20, 60, 100, ${0.7 + Math.cos(time * 0.8) * 0.1})`);
+      gradient.addColorStop(0.6, `rgba(80, 40, 100, ${0.6 + Math.sin(time * 1.2) * 0.1})`);
+      gradient.addColorStop(1, `rgba(0, 60, 80, ${0.8 + Math.cos(time * 0.7) * 0.1})`);
+      
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const drawOrb = (x, y, radius, color, opacity) => {
+        const orbGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+        orbGradient.addColorStop(0, `${color}, ${opacity})`);
+        orbGradient.addColorStop(0.5, `${color}, ${opacity * 0.4})`);
+        orbGradient.addColorStop(1, `${color}, 0)`);
+        
+        ctx.fillStyle = orbGradient;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      };
+
+      drawOrb(
+        canvas.width * 0.15 + Math.sin(time) * 100,
+        canvas.height * 0.3 + Math.cos(time * 0.8) * 80,
+        250,
+        'rgba(0, 150, 255',
+        0.6
+      );
+
+      drawOrb(
+        canvas.width * 0.85 + Math.cos(time * 0.9) * 120,
+        canvas.height * 0.7 + Math.sin(time * 1.1) * 90,
+        300,
+        'rgba(150, 50, 255',
+        0.5
+      );
+
+      drawOrb(
+        canvas.width * 0.5 + Math.sin(time * 1.3) * 60,
+        canvas.height * 0.5 + Math.cos(time * 0.6) * 60,
+        200,
+        'rgba(255, 100, 150',
+        0.4
+      );
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   return (
     <>

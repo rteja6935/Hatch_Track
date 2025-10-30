@@ -1,8 +1,141 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../CSS/HomePage.css";
 import { useNavigate, Link } from "react-router-dom";
-import { FiMoon, FiSun, FiMenu, FiX, FiPhone, FiMail, FiMapPin, FiTrendingUp, FiShoppingCart, FiStar, FiSmile, FiCamera, FiCheckCircle, FiBell, FiGrid, FiUsers, FiCloud } from "react-icons/fi";
+import { FiMoon, FiSun, FiMenu, FiX, FiPhone, FiMail, FiMapPin, FiTrendingUp, FiShoppingCart, FiStar, FiSmile, FiCamera, FiCheckCircle, FiBell, FiGrid, FiUsers, FiCloud, FiPackage, FiAward } from "react-icons/fi";
 import { motion, useInView } from "framer-motion";
+import Aurora from "./Aurora";
+import Particles from "./Particles";
+import Galaxy from "./Galaxy";
+
+// About Tabs Component
+const AboutTabs = () => {
+  const [activeTab, setActiveTab] = useState("mission");
+
+  const tabs = [
+    { id: "mission", label: "Our Mission", icon: <FiTrendingUp /> },
+    { id: "vision", label: "Our Vision", icon: <FiStar /> },
+    { id: "values", label: "Core Values", icon: <FiCheckCircle /> },
+    { id: "team", label: "Our Team", icon: <FiUsers /> }
+  ];
+
+  const tabContent = {
+    mission: {
+      title: "Our Mission",
+      description: "To revolutionize the aquaculture industry by delivering sustainable, healthy, and profitable solutions for shrimp and prawn farmers across the nation.",
+      image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=800&auto=format&fit=crop",
+      highlights: [
+        { icon: <FiCheckCircle />, text: "Sustainable aquaculture practices" },
+        { icon: <FiCheckCircle />, text: "Healthy & profitable solutions" },
+        { icon: <FiCheckCircle />, text: "Supporting farmers nationwide" }
+      ]
+    },
+    vision: {
+      title: "Our Vision",
+      description: "To be recognized as a trusted global brand in the hatchery industry, promoting eco-friendly aquaculture practices and supporting farmers with reliable and result-driven seed quality.",
+      image: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?q=80&w=800&auto=format&fit=crop",
+      highlights: [
+        { icon: <FiStar />, text: "Trusted global brand" },
+        { icon: <FiStar />, text: "Eco-friendly practices" },
+        { icon: <FiStar />, text: "Result-driven quality" }
+      ]
+    },
+    values: {
+      title: "Core Values",
+      description: "We are built on the foundation of trust, transparency, and technology. These three pillars guide every decision we make and every seed we produce.",
+      image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?q=80&w=800&auto=format&fit=crop",
+      highlights: [
+        { icon: <FiCheckCircle />, text: "Trust - Building lasting relationships" },
+        { icon: <FiCheckCircle />, text: "Transparency - Open and honest practices" },
+        { icon: <FiCheckCircle />, text: "Technology - Innovation in aquaculture" }
+      ]
+    },
+    team: {
+      title: "Expert Team",
+      description: "Our team of aquaculture experts ensures every stage, from broodstock selection to larval rearing, follows world-class biosecurity and water quality standards.",
+      image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=800&auto=format&fit=crop",
+      highlights: [
+        { icon: <FiUsers />, text: "Experienced aquaculture professionals" },
+        { icon: <FiUsers />, text: "World-class biosecurity standards" },
+        { icon: <FiUsers />, text: "Dedicated to farmer success" }
+      ]
+    }
+  };
+
+  const content = tabContent[activeTab];
+
+  return (
+    <div className="about-tabs-container">
+      <div className="about-tabs-navigation">
+        {tabs.map((tab) => (
+          <motion.button
+            key={tab.id}
+            className={`about-tab-btn ${activeTab === tab.id ? "active" : ""}`}
+            onClick={() => setActiveTab(tab.id)}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="tab-icon">{tab.icon}</span>
+            <span className="tab-label">{tab.label}</span>
+          </motion.button>
+        ))}
+      </div>
+
+      <motion.div
+        className="about-tab-content"
+        key={activeTab}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="tab-content-grid">
+          <div className="tab-content-text">
+            <h3 className="tab-content-title">{content.title}</h3>
+            <p className="tab-content-description">{content.description}</p>
+
+            <div className="tab-content-highlights">
+              {content.highlights.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="highlight-item"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <span className="highlight-icon">{item.icon}</span>
+                  <span className="highlight-text">{item.text}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            {activeTab === "mission" && (
+              <blockquote className="tab-quote">
+                "Hey boss, don't just buy any random seed - with us, you get Healthy Seeds, High Profits."
+              </blockquote>
+            )}
+
+            {activeTab === "team" && (
+              <blockquote className="tab-quote">
+                "Because here, we believe in raising prawns, not problems."
+              </blockquote>
+            )}
+          </div>
+
+          <div className="tab-content-image">
+            <motion.div
+              className="image-wrapper"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <img src={content.image} alt={content.title} />
+              <div className="image-overlay"></div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -143,6 +276,12 @@ const HomePage = () => {
         {/* HERO SECTION */}
         <section className="lords-hero">
           <div className="lords-hero-bg">
+            <Aurora
+              colorStops={["#2563eb", "#06b6d4", "#10b981"]}
+              blend={0.5}
+              amplitude={1.2}
+              speed={0.4}
+            />
             <div className="lords-hero-overlay"></div>
           </div>
 
@@ -154,11 +293,11 @@ const HomePage = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="lords-hero-title">
-                Welcome to<br />
-                <span className="lords-gradient-text">Lords Aqua Hatcheries</span>
+                A New Vision in the<br />
+                <span className="lords-gradient-text">Hatchery World</span>
               </h1>
               <p className="lords-hero-subtitle">
-                Your trusted partner in aquaculture excellence. Track, manage, and grow your fish hatchery operations with cutting-edge technology and expert support.
+                "Raising prawns, not problems" - Redefining aquaculture with innovation, sustainability, and science to deliver healthy, high-quality prawn seeds for better yields and better profits.
               </p>
               <div className="lords-hero-ctas">
                 <button className="lords-btn lords-btn-primary lords-btn-lg" onClick={() => navigate("/user-login")}>
@@ -248,8 +387,20 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* FEATURES SECTION */}
-        <section id="features" className="lords-features-section">
+        {/* ABOUT SECTION */}
+        <section id="about" className="lords-about-section">
+          <div className="lords-particles-wrapper">
+            <Particles
+              particleColors={['#667eea', '#764ba2', '#f093fb']}
+              particleCount={150}
+              particleSpread={8}
+              speed={0.05}
+              particleBaseSize={80}
+              moveParticlesOnHover={true}
+              alphaParticles={true}
+              disableRotation={false}
+            />
+          </div>
           <div className="lords-container">
             <motion.div
               className="lords-section-header"
@@ -258,8 +409,40 @@ const HomePage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="lords-section-title">Powerful Features</h2>
-              <p className="lords-section-subtitle">Everything you need to manage your aquaculture business efficiently</p>
+              <h2 className="lords-section-title">About Lords Aqua Hatcheries</h2>
+              <p className="lords-section-subtitle">
+                Built on trust, transparency, and technology - we're redefining aquaculture excellence
+              </p>
+            </motion.div>
+
+            <AboutTabs />
+          </div>
+        </section>
+
+        {/* FEATURES SECTION */}
+        <section id="features" className="lords-features-section">
+          <div className="lords-particles-wrapper">
+            <Particles
+              particleColors={['#4facfe', '#00f2fe', '#43e97b']}
+              particleCount={150}
+              particleSpread={8}
+              speed={0.05}
+              particleBaseSize={80}
+              moveParticlesOnHover={true}
+              alphaParticles={true}
+              disableRotation={false}
+            />
+          </div>
+          <div className="lords-container">
+            <motion.div
+              className="lords-section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="lords-section-title">What We Offer</h2>
+              <p className="lords-section-subtitle">Premium quality prawn seeds and comprehensive support from hatch to harvest</p>
             </motion.div>
 
             <div className="lords-features-grid">
@@ -274,9 +457,9 @@ const HomePage = () => {
                 <div className="lords-feature-icon">
                   <FiCamera />
                 </div>
-                <h3 className="lords-feature-title">Upload & Track Daily Growth</h3>
+                <h3 className="lords-feature-title">Bio-Secure Hatchery Systems</h3>
                 <p className="lords-feature-desc">
-                  Capture and monitor the growth of your fish stocks with daily photo uploads and detailed tracking metrics.
+                  100% monitored and controlled environments ensuring disease-free, fast-growing, and high-survival-rate seeds for consistent success from hatch to harvest.
                 </p>
               </motion.div>
 
@@ -291,9 +474,9 @@ const HomePage = () => {
                 <div className="lords-feature-icon">
                   <FiCheckCircle />
                 </div>
-                <h3 className="lords-feature-title">Admin Approval & Feedback</h3>
+                <h3 className="lords-feature-title">Expert Guidance & Support</h3>
                 <p className="lords-feature-desc">
-                  Get expert feedback and approval from administrators to ensure optimal growth conditions and best practices.
+                  Technical support from experienced aquaculture professionals throughout the growing cycle, ensuring healthy ponds, faster growth, and profitable harvests.
                 </p>
               </motion.div>
 
@@ -308,9 +491,9 @@ const HomePage = () => {
                 <div className="lords-feature-icon">
                   <FiBell />
                 </div>
-                <h3 className="lords-feature-title">Real-time Notifications</h3>
+                <h3 className="lords-feature-title">Sustainable Practices</h3>
                 <p className="lords-feature-desc">
-                  Stay updated with instant alerts for critical events, approvals, and important updates about your hatchery.
+                  Responsible and eco-conscious farming from hatch to harvest. Year-round production capacity with world-class biosecurity and water quality standards.
                 </p>
               </motion.div>
 
@@ -325,66 +508,44 @@ const HomePage = () => {
                 <div className="lords-feature-icon">
                   <FiGrid />
                 </div>
-                <h3 className="lords-feature-title">Manage All Hatcheries in One Place</h3>
+                <h3 className="lords-feature-title">High-Quality Prawn Seeds</h3>
                 <p className="lords-feature-desc">
-                  Centralized dashboard to oversee multiple hatcheries, track performance, and manage operations seamlessly.
+                  Uniform size, fast growth, and strong survival rate. Every seed is bred, tested, and nurtured with care and precision for maximum results. Healthy Seeds, High Profits.
                 </p>
               </motion.div>
-            </div>
-          </div>
-        </section>
 
-        {/* ABOUT SECTION */}
-        <section id="about" className="lords-about-section">
-          <div className="lords-container">
-            <div className="lords-about-content">
               <motion.div
-                className="lords-about-text"
+                className="lords-feature-card"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
-                <h2 className="lords-section-title">About Lords Aqua Hatcheries</h2>
-                <p className="lords-about-para">
-                  Lords Aqua Hatcheries is a pioneering platform in aquaculture management, dedicated to revolutionizing the way fish hatcheries operate. Our comprehensive solution combines cutting-edge technology with industry expertise to provide seamless tracking, monitoring, and management of your aquaculture operations.
-                </p>
-                <p className="lords-about-para">
-                  With years of experience in the aquaculture industry, we understand the challenges faced by hatchery operators. Our platform is designed to simplify daily operations, improve productivity, and maximize yields through real-time data tracking, expert feedback, and automated workflows.
-                </p>
-                <p className="lords-about-para">
-                  Whether you're managing a single hatchery or multiple facilities, our platform scales with your needs, providing powerful tools for monitoring growth rates, managing inventory, receiving expert guidance, and making data-driven decisions that drive success.
-                </p>
-                <div className="lords-about-features">
-                  <div className="lords-about-feature-item">
-                    <span className="lords-check-icon">✓</span>
-                    <span>Expert-backed technology</span>
-                  </div>
-                  <div className="lords-about-feature-item">
-                    <span className="lords-check-icon">✓</span>
-                    <span>Real-time monitoring and analytics</span>
-                  </div>
-                  <div className="lords-about-feature-item">
-                    <span className="lords-check-icon">✓</span>
-                    <span>Scalable solutions for all sizes</span>
-                  </div>
-                  <div className="lords-about-feature-item">
-                    <span className="lords-check-icon">✓</span>
-                    <span>24/7 customer support</span>
-                  </div>
+                <div className="lords-feature-icon">
+                  <FiPackage />
                 </div>
+                <h3 className="lords-feature-title">Consistent Supply</h3>
+                <p className="lords-feature-desc">
+                  Year-round production capacity means you get reliable seed supply whenever you need it. We ensure you never face stock shortages during critical farming seasons.
+                </p>
               </motion.div>
 
               <motion.div
-                className="lords-about-image"
-                initial={{ opacity: 0, x: 30 }}
+                className="lords-feature-card"
+                initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
-                <div className="lords-about-img-wrapper">
-                  <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?q=80&w=1200&auto=format&fit=crop" alt="Fish Hatchery" />
+                <div className="lords-feature-icon">
+                  <FiAward />
                 </div>
+                <h3 className="lords-feature-title">Proven Track Record</h3>
+                <p className="lords-feature-desc">
+                  Join hundreds of successful farmers who trust us for their aquaculture needs. Our results speak for themselves with higher survival rates and better harvest outcomes.
+                </p>
               </motion.div>
             </div>
           </div>
@@ -401,7 +562,7 @@ const HomePage = () => {
               transition={{ duration: 0.6 }}
             >
               <h2 className="lords-section-title">Contact Us</h2>
-              <p className="lords-section-subtitle">Get in touch for more details and support</p>
+              <p className="lords-section-subtitle">For any queries, support, or information about our premium prawn seeds - we're here to help you succeed</p>
             </motion.div>
 
             <div className="lords-contact-grid">
@@ -453,6 +614,191 @@ const HomePage = () => {
           </div>
         </section>
 
+        {/* OUR PROMISE SECTION */}
+        <section className="lords-promise-section" style={{
+          position: 'relative',
+          background: 'linear-gradient(135deg, var(--lords-primary) 0%, var(--lords-primary-dark) 100%)',
+          color: 'white',
+          padding: '4rem 0',
+          textAlign: 'center',
+          overflow: 'hidden'
+        }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.3 }}>
+            <Aurora
+              colorStops={["#3b82f6", "#a78bfa", "#ec4899"]}
+              blend={0.7}
+              amplitude={1.2}
+              speed={0.2}
+            />
+          </div>
+          <div className="lords-container" style={{ position: 'relative', zIndex: 1 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 style={{ fontSize: '2.5rem', fontWeight: '700', marginBottom: '1.5rem' }}>
+                Our Promise to You
+              </h2>
+              <p style={{ fontSize: '1.25rem', maxWidth: '900px', margin: '0 auto 2rem', lineHeight: '1.8', opacity: '0.95' }}>
+                We understand that your success depends on the quality of your seed. That's why every seed from <strong>Lord's Aqua Hatcheries</strong> is bred, tested, and nurtured with care and precision to help you harvest more, faster, and healthier.
+              </p>
+              <blockquote style={{
+                fontSize: '1.5rem',
+                fontStyle: 'italic',
+                fontWeight: '500',
+                maxWidth: '800px',
+                margin: '2rem auto',
+                padding: '2rem',
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                backdropFilter: 'blur(10px)'
+              }}>
+                "From hatch to harvest, sustainable aquaculture."
+              </blockquote>
+              <p style={{ fontSize: '1.1rem', maxWidth: '850px', margin: '2rem auto 0', opacity: '0.9' }}>
+                Our journey doesn't end with seed delivery; it begins there. We support farmers throughout the growing cycle, ensuring healthy ponds, faster growth, and profitable harvests.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* GET IN TOUCH WITH US SECTION */}
+        <section className="lords-collaborate-section">
+          <div className="lords-container">
+            <motion.div
+              className="lords-section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="lords-section-title">Get in Touch With Us</h2>
+              <p className="lords-section-subtitle">
+                Let's build a healthier, more sustainable aquaculture future together
+              </p>
+            </motion.div>
+
+            <div className="lords-collaborate-content">
+              <motion.div
+                className="lords-collaborate-info"
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="lords-collaborate-feature">
+                  <div className="lords-collaborate-icon">
+                    <FiUsers />
+                  </div>
+                  <div>
+                    <h3>Partnership Opportunities</h3>
+                    <p>Explore collaboration possibilities with Lord's Aqua Hatcheries and grow together in the aquaculture industry.</p>
+                  </div>
+                </div>
+
+                <div className="lords-collaborate-feature">
+                  <div className="lords-collaborate-icon">
+                    <FiTrendingUp />
+                  </div>
+                  <div>
+                    <h3>Business Inquiries</h3>
+                    <p>Interested in bulk orders, distribution rights, or franchise opportunities? We'd love to hear from you.</p>
+                  </div>
+                </div>
+
+                <div className="lords-collaborate-feature">
+                  <div className="lords-collaborate-icon">
+                    <FiCheckCircle />
+                  </div>
+                  <div>
+                    <h3>Expert Support</h3>
+                    <p>Get guidance from our experienced aquaculture professionals to ensure your farming success.</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.form
+                className="lords-collaborate-form"
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="lords-form-group">
+                  <label htmlFor="name">Full Name *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+
+                <div className="lords-form-row">
+                  <div className="lords-form-group">
+                    <label htmlFor="email">Email Address *</label>
+                    <input
+                      type="email"
+                      id="email"
+                      placeholder="your.email@example.com"
+                      required
+                    />
+                  </div>
+
+                  <div className="lords-form-group">
+                    <label htmlFor="phone">Phone Number *</label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      placeholder="+91 98765 43210"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="lords-form-group">
+                  <label htmlFor="company">Company/Farm Name</label>
+                  <input
+                    type="text"
+                    id="company"
+                    placeholder="Enter your company or farm name"
+                  />
+                </div>
+
+                <div className="lords-form-group">
+                  <label htmlFor="inquiry">Type of Inquiry *</label>
+                  <select id="inquiry" required>
+                    <option value="">Select inquiry type</option>
+                    <option value="partnership">Partnership Opportunity</option>
+                    <option value="bulk">Bulk Order</option>
+                    <option value="distribution">Distribution Rights</option>
+                    <option value="franchise">Franchise Opportunity</option>
+                    <option value="support">Technical Support</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div className="lords-form-group">
+                  <label htmlFor="message">Your Message *</label>
+                  <textarea
+                    id="message"
+                    rows="5"
+                    placeholder="Tell us about your inquiry, requirements, or how we can collaborate..."
+                    required
+                  ></textarea>
+                </div>
+
+                <button type="submit" className="lords-btn-primary lords-submit-btn">
+                  <span>Send Message</span>
+                  <FiCheckCircle />
+                </button>
+              </motion.form>
+            </div>
+          </div>
+        </section>
+
         {/* DOWNLOAD APP SECTION */}
         <section className="lords-download-section">
           <div className="lords-container">
@@ -464,10 +810,24 @@ const HomePage = () => {
               transition={{ duration: 0.6 }}
             >
               <div className="lords-download-content">
-                <h2 className="lords-download-title">Download Our Mobile App</h2>
+                <h2 className="lords-download-title">We Are Available At Your Fingertips</h2>
                 <p className="lords-download-subtitle">
-                  Manage your hatchery operations on the go. Download our app from Google Play Store.
+                  Track your hatchery progress, get real-time updates, connect with experts, and manage your aquaculture journey - all from the palm of your hand. Download the Lord's Aqua Hatcheries app and experience aquaculture excellence on the go.
                 </p>
+                <div className="lords-app-features">
+                  <div className="lords-app-feature-item">
+                    <FiCamera />
+                    <span>Daily Progress Tracking</span>
+                  </div>
+                  <div className="lords-app-feature-item">
+                    <FiBell />
+                    <span>Instant Notifications</span>
+                  </div>
+                  <div className="lords-app-feature-item">
+                    <FiUsers />
+                    <span>Expert Support 24/7</span>
+                  </div>
+                </div>
                 <a
                   href="https://play.google.com/store"
                   target="_blank"
@@ -495,7 +855,7 @@ const HomePage = () => {
                 <span>Lords Aqua Hatcheries</span>
               </div>
               <p className="lords-footer-desc">
-                Your trusted partner in aquaculture excellence
+                "From hatch to harvest, sustainable aquaculture" - Your trusted partner for healthy seeds and high profits.
               </p>
               <p className="lords-copyright">
                 © {new Date().getFullYear()} Lords Aqua Hatcheries. All rights reserved.
