@@ -7,7 +7,7 @@ import Aurora from "./Aurora";
 import Particles from "./Particles";
 import Galaxy from "./Galaxy";
 import ScrollStack, { ScrollStackItem } from "./ScrollStack";
-
+import missionImage from '../Images/mission.jpeg';
 // About Tabs Component
 const AboutTabs = () => {
   const [activeTab, setActiveTab] = useState("mission");
@@ -23,7 +23,7 @@ const AboutTabs = () => {
     mission: {
       title: "Our Mission",
       description: "To revolutionize the aquaculture industry by delivering sustainable, healthy, and profitable solutions for shrimp and prawn farmers across the nation.",
-      image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=800&auto=format&fit=crop",
+      image: missionImage,
       highlights: [
         { icon: <FiCheckCircle />, text: "Sustainable aquaculture practices" },
         { icon: <FiCheckCircle />, text: "Healthy & profitable solutions" },
