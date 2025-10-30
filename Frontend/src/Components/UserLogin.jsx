@@ -46,44 +46,151 @@ const UserLogin = () => {
 
   const generateOtp = () => Math.floor(100000 + Math.random() * 900000);
 
-  const handleSendOtp = () => {
-    if (phoneNumber.length !== 10) {
-      alert("Please enter a valid 10-digit mobile number");
-      return;
-    }
-
-    const otp = generateOtp();
-    localStorage.setItem("otp", otp);
-    console.log("Generated OTP:", otp);
-    setOtpSent(true);
-    setCountdown(30);
-    alert(`OTP sent to your mobile number! [Demo OTP: ${otp}]`);
-  };
-
-  const handleVerifyOtp = (e) => {
-    e.preventDefault();
-    const storedOtp = localStorage.getItem("otp");
-    if (enteredOtp === storedOtp) {
-      localStorage.removeItem("otp");
-      // Save phone number for dashboard to use
-      localStorage.setItem("userPhoneNumber", phoneNumber);
-      navigate("/user-dashboard");
-      resetForm();
+  const handleSendOtp = async () => {
+    // Validation for signup
+    if (isSignUp) {
+      if (!name.trim()) {
+        alert("Please enter your full name");
+        return;
+      }
+      if (phoneNumber.length !== 10) {
+        alert("Please enter a valid 10-digit mobile number");
+        return;
+      }
     } else {
-      alert("Invalid OTP! Please try again.");
+      // Validation for login
+      if (phoneNumber.length !== 10) {
+        alert("Please enter a valid 10-digit mobile number");
+        return;
+      }
+    }
+
+    try {
+      // Add +91 country code to phone number
+      const phoneNumberWithCode = `+91${phoneNumber}`;
+
+      // Call backend API based on signup or login
+      const endpoint = isSignUp
+        ? 'http://localhost:3000/api/Auth/User-signup-otpGen'
+        : 'http://localhost:3000/api/Auth/User-login-otpGen';
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phoneNumber: phoneNumberWithCode }),
+      });
+
+      const data = await response.json();
+      // For testing purposes 
+      if (response.ok && data.success) {
+        setOtpSent(true);
+        setCountdown(30);
+        alert(data.message || 'OTP sent successfully to your mobile number!');
+      } else {
+        alert(data.message || 'Failed to send OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      alert('Failed to send OTP. Please check your connection and try again.');
     }
   };
 
-  const handlePasswordLogin = (e) => {
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Add +91 country code to phone number
+      const phoneNumberWithCode = `+91${phoneNumber}`;
+
+      // Call backend API based on signup or login
+      const endpoint = isSignUp
+        ? 'http://localhost:3000/api/User-signup-otpVerify'
+        : 'http://localhost:3000/api/User-login-otpVerify';
+
+      const requestBody = isSignUp
+        ? {
+            name,
+            email: email || undefined,
+            phoneNumber: phoneNumberWithCode,
+            password: password || undefined,
+            otpCode: enteredOtp,
+          }
+        : {
+            phoneNumber: phoneNumberWithCode,
+            otpCode: enteredOtp,
+          };
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Save user data for dashboard (with +91 code)
+        localStorage.setItem("userPhoneNumber", phoneNumberWithCode);
+
+        // If signing up, save additional user information
+        if (isSignUp) {
+          localStorage.setItem("userName", name);
+          if (email) localStorage.setItem("userEmail", email);
+          if (data.user && data.user._id) {
+            localStorage.setItem("userId", data.user._id);
+          }
+        }
+
+        alert(data.message || 'OTP verified successfully!');
+        navigate("/user-dashboard");
+        resetForm();
+      } else {
+        alert(data.message || 'Invalid OTP! Please try again.');
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      alert('Failed to verify OTP. Please check your connection and try again.');
+    }
+  };
+
+  const handlePasswordLogin = async (e) => {
     e.preventDefault();
     if (!phoneNumber || !password) {
       alert("Please enter mobile number and password");
       return;
     }
-    // Save phone number for dashboard to use
-    localStorage.setItem("userPhoneNumber", phoneNumber);
-    navigate("/user-dashboard");
-    resetForm();
+
+    try {
+      // Add +91 country code to phone number
+      const phoneNumberWithCode = `+91${phoneNumber}`;
+
+      const response = await fetch('http://localhost:3000/api/User-login-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phoneNumber: phoneNumberWithCode, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Save phone number for dashboard to use (with +91 code)
+        localStorage.setItem("userPhoneNumber", phoneNumberWithCode);
+        alert(data.message || 'Login successful!');
+        navigate("/user-dashboard");
+        resetForm();
+      } else {
+        alert(data.message || 'Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Error during password login:', error);
+      alert('Failed to login. Please check your connection and try again.');
+    }
   };
 
   const resetForm = () => {
@@ -162,13 +269,27 @@ const UserLogin = () => {
                 <>
                   <div className="auth-input-group">
                     <div style={{ position: "relative" }}>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "2.75rem",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          color: "var(--auth-text)",
+                          fontWeight: "500",
+                          pointerEvents: "none",
+                          zIndex: 1
+                        }}
+                      >
+                        +91
+                      </span>
                       <input
                         type="tel"
                         placeholder="Enter Mobile Number"
                         maxLength="10"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
-                        style={{ paddingLeft: "2.75rem" }}
+                        style={{ paddingLeft: "5rem" }}
                       />
                       <FiSmartphone
                         style={{
@@ -221,6 +342,20 @@ const UserLogin = () => {
               ) : (
                 <form onSubmit={handlePasswordLogin} className="password-login">
                   <div style={{ position: "relative" }}>
+                    <span
+                      style={{
+                        position: "absolute",
+                        left: "2.75rem",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        color: "var(--auth-text)",
+                        fontWeight: "500",
+                        pointerEvents: "none",
+                        zIndex: 1
+                      }}
+                    >
+                      +91
+                    </span>
                     <input
                       type="tel"
                       placeholder="Enter Mobile Number"
@@ -228,7 +363,7 @@ const UserLogin = () => {
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       required
-                      style={{ paddingLeft: "2.75rem" }}
+                      style={{ paddingLeft: "5rem" }}
                     />
                     <FiSmartphone
                       style={{
@@ -280,10 +415,11 @@ const UserLogin = () => {
               <p className="auth-subtext">Join Lords Aqua Hatcheries today</p>
 
               <div className="auth-input-group">
+                {/* Full Name - Mandatory */}
                 <div style={{ position: "relative" }}>
                   <input
                     type="text"
-                    placeholder="Full Name"
+                    placeholder="Full Name *"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
@@ -300,13 +436,49 @@ const UserLogin = () => {
                   />
                 </div>
 
+                {/* Mobile Number - Mandatory */}
+                <div style={{ position: "relative" }}>
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: "2.75rem",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: "var(--auth-text)",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      zIndex: 1
+                    }}
+                  >
+                    +91
+                  </span>
+                  <input
+                    type="tel"
+                    placeholder="Mobile Number *"
+                    maxLength="10"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    required
+                    style={{ paddingLeft: "5rem" }}
+                  />
+                  <FiSmartphone
+                    style={{
+                      position: "absolute",
+                      left: "1rem",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: "var(--auth-text-light)"
+                    }}
+                  />
+                </div>
+
+                {/* Email - Optional */}
                 <div style={{ position: "relative" }}>
                   <input
                     type="email"
-                    placeholder="Email Address"
+                    placeholder="Email Address (Optional)"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                     style={{ paddingLeft: "2.75rem" }}
                   />
                   <FiMail
@@ -320,17 +492,16 @@ const UserLogin = () => {
                   />
                 </div>
 
+                {/* Password - Optional */}
                 <div style={{ position: "relative" }}>
                   <input
-                    type="tel"
-                    placeholder="Mobile Number"
-                    maxLength="10"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    required
+                    type="password"
+                    placeholder="Password (Optional)"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     style={{ paddingLeft: "2.75rem" }}
                   />
-                  <FiSmartphone
+                  <FiLock
                     style={{
                       position: "absolute",
                       left: "1rem",
@@ -346,7 +517,7 @@ const UserLogin = () => {
                 <button
                   className="send-btn"
                   onClick={handleSendOtp}
-                  disabled={!phoneNumber || phoneNumber.length < 10}
+                  disabled={!name.trim() || !phoneNumber || phoneNumber.length < 10}
                   style={{ marginTop: "0.5rem" }}
                 >
                   Send OTP

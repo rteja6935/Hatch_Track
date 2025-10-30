@@ -12,6 +12,7 @@ require("dotenv").config();
 exports.userSignupGenOtp = async (req, res) => {
   try {
     const { phoneNumber } = req.body;
+    console.log("Received phone number for signup OTP:", phoneNumber);
     if (!phoneNumber) {
       return res.status(400).json({ success: false, message: "Phone number is required" });
     }
