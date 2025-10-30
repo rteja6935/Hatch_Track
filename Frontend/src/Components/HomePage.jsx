@@ -6,6 +6,7 @@ import { motion, useInView } from "framer-motion";
 import Aurora from "./Aurora";
 import Particles from "./Particles";
 import Galaxy from "./Galaxy";
+import ScrollStack, { ScrollStackItem } from "./ScrollStack";
 
 // About Tabs Component
 const AboutTabs = () => {
@@ -141,6 +142,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [formPopupOpen, setFormPopupOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
     try {
       return localStorage.getItem("lords-aqua-theme") || "light";
@@ -420,7 +422,7 @@ const HomePage = () => {
         </section>
 
         {/* FEATURES SECTION */}
-        <section id="features" className="lords-features-section">
+        <section id="features" className="lords-features-section lords-features-scroll-section">
           <div className="lords-particles-wrapper">
             <Particles
               particleColors={['#4facfe', '#00f2fe', '#43e97b']}
@@ -433,122 +435,91 @@ const HomePage = () => {
               disableRotation={false}
             />
           </div>
-          <div className="lords-container">
-            <motion.div
-              className="lords-section-header"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="lords-section-title">What We Offer</h2>
-              <p className="lords-section-subtitle">Premium quality prawn seeds and comprehensive support from hatch to harvest</p>
-            </motion.div>
 
-            <div className="lords-features-grid">
+          <div className="lords-features-scroll-header">
+            <div className="lords-container">
               <motion.div
-                className="lords-feature-card"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                className="lords-section-header"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
+                transition={{ duration: 0.6 }}
               >
-                <div className="lords-feature-icon">
-                  <FiCamera />
-                </div>
-                <h3 className="lords-feature-title">Bio-Secure Hatchery Systems</h3>
-                <p className="lords-feature-desc">
-                  100% monitored and controlled environments ensuring disease-free, fast-growing, and high-survival-rate seeds for consistent success from hatch to harvest.
-                </p>
-              </motion.div>
-
-              <motion.div
-                className="lords-feature-card"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              >
-                <div className="lords-feature-icon">
-                  <FiCheckCircle />
-                </div>
-                <h3 className="lords-feature-title">Expert Guidance & Support</h3>
-                <p className="lords-feature-desc">
-                  Technical support from experienced aquaculture professionals throughout the growing cycle, ensuring healthy ponds, faster growth, and profitable harvests.
-                </p>
-              </motion.div>
-
-              <motion.div
-                className="lords-feature-card"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              >
-                <div className="lords-feature-icon">
-                  <FiBell />
-                </div>
-                <h3 className="lords-feature-title">Sustainable Practices</h3>
-                <p className="lords-feature-desc">
-                  Responsible and eco-conscious farming from hatch to harvest. Year-round production capacity with world-class biosecurity and water quality standards.
-                </p>
-              </motion.div>
-
-              <motion.div
-                className="lords-feature-card"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              >
-                <div className="lords-feature-icon">
-                  <FiGrid />
-                </div>
-                <h3 className="lords-feature-title">High-Quality Prawn Seeds</h3>
-                <p className="lords-feature-desc">
-                  Uniform size, fast growth, and strong survival rate. Every seed is bred, tested, and nurtured with care and precision for maximum results. Healthy Seeds, High Profits.
-                </p>
-              </motion.div>
-
-              <motion.div
-                className="lords-feature-card"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              >
-                <div className="lords-feature-icon">
-                  <FiPackage />
-                </div>
-                <h3 className="lords-feature-title">Consistent Supply</h3>
-                <p className="lords-feature-desc">
-                  Year-round production capacity means you get reliable seed supply whenever you need it. We ensure you never face stock shortages during critical farming seasons.
-                </p>
-              </motion.div>
-
-              <motion.div
-                className="lords-feature-card"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              >
-                <div className="lords-feature-icon">
-                  <FiAward />
-                </div>
-                <h3 className="lords-feature-title">Proven Track Record</h3>
-                <p className="lords-feature-desc">
-                  Join hundreds of successful farmers who trust us for their aquaculture needs. Our results speak for themselves with higher survival rates and better harvest outcomes.
-                </p>
+                <h2 className="lords-section-title">What We Offer</h2>
+                <p className="lords-section-subtitle">Premium quality prawn seeds and comprehensive support from hatch to harvest</p>
               </motion.div>
             </div>
           </div>
+
+          <ScrollStack
+            itemDistance={50}
+            itemScale={0.05}
+            itemStackDistance={40}
+            stackPosition="30%"
+            scaleEndPosition="15%"
+            baseScale={0.9}
+            useWindowScroll={true}
+          >
+            <ScrollStackItem itemClassName="lords-scroll-card-1">
+              <div className="lords-feature-icon lords-scroll-icon">
+                <FiCamera />
+              </div>
+              <h3 className="lords-feature-title">Bio-Secure Hatchery Systems</h3>
+              <p className="lords-feature-desc">
+                100% monitored and controlled environments ensuring disease-free, fast-growing, and high-survival-rate seeds for consistent success from hatch to harvest.
+              </p>
+            </ScrollStackItem>
+
+            <ScrollStackItem itemClassName="lords-scroll-card-2">
+              <div className="lords-feature-icon lords-scroll-icon">
+                <FiCheckCircle />
+              </div>
+              <h3 className="lords-feature-title">Expert Guidance & Support</h3>
+              <p className="lords-feature-desc">
+                Technical support from experienced aquaculture professionals throughout the growing cycle, ensuring healthy ponds, faster growth, and profitable harvests.
+              </p>
+            </ScrollStackItem>
+
+            <ScrollStackItem itemClassName="lords-scroll-card-3">
+              <div className="lords-feature-icon lords-scroll-icon">
+                <FiBell />
+              </div>
+              <h3 className="lords-feature-title">Sustainable Practices</h3>
+              <p className="lords-feature-desc">
+                Responsible and eco-conscious farming from hatch to harvest. Year-round production capacity with world-class biosecurity and water quality standards.
+              </p>
+            </ScrollStackItem>
+
+            <ScrollStackItem itemClassName="lords-scroll-card-4">
+              <div className="lords-feature-icon lords-scroll-icon">
+                <FiGrid />
+              </div>
+              <h3 className="lords-feature-title">High-Quality Prawn Seeds</h3>
+              <p className="lords-feature-desc">
+                Uniform size, fast growth, and strong survival rate. Every seed is bred, tested, and nurtured with care and precision for maximum results. Healthy Seeds, High Profits.
+              </p>
+            </ScrollStackItem>
+
+            <ScrollStackItem itemClassName="lords-scroll-card-5">
+              <div className="lords-feature-icon lords-scroll-icon">
+                <FiPackage />
+              </div>
+              <h3 className="lords-feature-title">Consistent Supply</h3>
+              <p className="lords-feature-desc">
+                Year-round production capacity means you get reliable seed supply whenever you need it. We ensure you never face stock shortages during critical farming seasons.
+              </p>
+            </ScrollStackItem>
+
+            <ScrollStackItem itemClassName="lords-scroll-card-6">
+              <div className="lords-feature-icon lords-scroll-icon">
+                <FiAward />
+              </div>
+              <h3 className="lords-feature-title">Proven Track Record</h3>
+              <p className="lords-feature-desc">
+                Join hundreds of successful farmers who trust us for their aquaculture needs. Our results speak for themselves with higher survival rates and better harvest outcomes.
+              </p>
+            </ScrollStackItem>
+          </ScrollStack>
         </section>
 
         {/* CONTACT SECTION */}
@@ -666,6 +637,19 @@ const HomePage = () => {
 
         {/* GET IN TOUCH WITH US SECTION */}
         <section className="lords-collaborate-section">
+          <div className="lords-collaborate-bg-wrapper">
+            <Particles
+              particleColors={['#667eea', '#764ba2', '#f093fb', '#4facfe']}
+              particleCount={100}
+              particleSpread={10}
+              speed={0.03}
+              particleBaseSize={60}
+              moveParticlesOnHover={true}
+              alphaParticles={true}
+              disableRotation={false}
+            />
+          </div>
+
           <div className="lords-container">
             <motion.div
               className="lords-section-header"
@@ -680,123 +664,185 @@ const HomePage = () => {
               </p>
             </motion.div>
 
-            <div className="lords-collaborate-content">
+            <div className="lords-collaborate-grid">
               <motion.div
-                className="lords-collaborate-info"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                className="lords-collab-card lords-collab-card-1"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                whileHover={{ scale: 1.05, rotate: 2 }}
               >
-                <div className="lords-collaborate-feature">
-                  <div className="lords-collaborate-icon">
-                    <FiUsers />
-                  </div>
-                  <div>
-                    <h3>Partnership Opportunities</h3>
-                    <p>Explore collaboration possibilities with Lord's Aqua Hatcheries and grow together in the aquaculture industry.</p>
-                  </div>
+                <div className="lords-collab-icon-lg">
+                  <FiUsers />
                 </div>
-
-                <div className="lords-collaborate-feature">
-                  <div className="lords-collaborate-icon">
-                    <FiTrendingUp />
-                  </div>
-                  <div>
-                    <h3>Business Inquiries</h3>
-                    <p>Interested in bulk orders, distribution rights, or franchise opportunities? We'd love to hear from you.</p>
-                  </div>
-                </div>
-
-                <div className="lords-collaborate-feature">
-                  <div className="lords-collaborate-icon">
-                    <FiCheckCircle />
-                  </div>
-                  <div>
-                    <h3>Expert Support</h3>
-                    <p>Get guidance from our experienced aquaculture professionals to ensure your farming success.</p>
-                  </div>
-                </div>
+                <h3>Partnership Opportunities</h3>
+                <p>Explore collaboration possibilities and grow together</p>
               </motion.div>
 
-              <motion.form
-                className="lords-collaborate-form"
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+              <motion.div
+                className="lords-collab-card lords-collab-card-2"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                whileHover={{ scale: 1.05, rotate: -2 }}
               >
-                <div className="lords-form-group">
-                  <label htmlFor="name">Full Name *</label>
-                  <input
-                    type="text"
-                    id="name"
-                    placeholder="Enter your full name"
-                    required
-                  />
+                <div className="lords-collab-icon-lg">
+                  <FiTrendingUp />
                 </div>
+                <h3>Business Inquiries</h3>
+                <p>Bulk orders, distribution rights, franchise opportunities</p>
+              </motion.div>
 
-                <div className="lords-form-row">
-                  <div className="lords-form-group">
-                    <label htmlFor="email">Email Address *</label>
-                    <input
-                      type="email"
-                      id="email"
-                      placeholder="your.email@example.com"
-                      required
-                    />
-                  </div>
-
-                  <div className="lords-form-group">
-                    <label htmlFor="phone">Phone Number *</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      placeholder="+91 98765 43210"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="lords-form-group">
-                  <label htmlFor="company">Company/Farm Name</label>
-                  <input
-                    type="text"
-                    id="company"
-                    placeholder="Enter your company or farm name"
-                  />
-                </div>
-
-                <div className="lords-form-group">
-                  <label htmlFor="inquiry">Type of Inquiry *</label>
-                  <select id="inquiry" required>
-                    <option value="">Select inquiry type</option>
-                    <option value="partnership">Partnership Opportunity</option>
-                    <option value="bulk">Bulk Order</option>
-                    <option value="distribution">Distribution Rights</option>
-                    <option value="franchise">Franchise Opportunity</option>
-                    <option value="support">Technical Support</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div className="lords-form-group">
-                  <label htmlFor="message">Your Message *</label>
-                  <textarea
-                    id="message"
-                    rows="5"
-                    placeholder="Tell us about your inquiry, requirements, or how we can collaborate..."
-                    required
-                  ></textarea>
-                </div>
-
-                <button type="submit" className="lords-btn-primary lords-submit-btn">
-                  <span>Send Message</span>
+              <motion.div
+                className="lords-collab-card lords-collab-card-3"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                whileHover={{ scale: 1.05, rotate: 2 }}
+              >
+                <div className="lords-collab-icon-lg">
                   <FiCheckCircle />
-                </button>
-              </motion.form>
+                </div>
+                <h3>Expert Support</h3>
+                <p>Guidance from aquaculture professionals</p>
+              </motion.div>
             </div>
+
+            <motion.div
+              className="lords-collab-cta-wrapper"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <button
+                className="lords-collab-open-btn"
+                onClick={() => setFormPopupOpen(true)}
+              >
+                <span>Start a Conversation</span>
+                <FiMail style={{ fontSize: '1.25rem' }} />
+              </button>
+              <p className="lords-collab-subtext">Click to open our collaboration form</p>
+            </motion.div>
           </div>
+
+          {/* FORM POPUP MODAL */}
+          {formPopupOpen && (
+            <motion.div
+              className="lords-form-modal-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setFormPopupOpen(false)}
+            >
+              <motion.div
+                className="lords-form-modal-container"
+                initial={{ scale: 0.8, opacity: 0, y: 50 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.8, opacity: 0, y: 50 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="lords-form-modal-bg">
+                  <div className="lords-form-modal-gradient"></div>
+                  <Aurora
+                    colorStops={["#667eea", "#f093fb", "#4facfe"]}
+                    blend={0.8}
+                    amplitude={1.5}
+                    speed={0.3}
+                  />
+                </div>
+
+                <button
+                  className="lords-form-modal-close"
+                  onClick={() => setFormPopupOpen(false)}
+                >
+                  <FiX />
+                </button>
+
+                <div className="lords-form-modal-content">
+                  <div className="lords-form-modal-header">
+                    <h2>Let's Collaborate</h2>
+                    <p>Share your details and let's create something amazing together</p>
+                  </div>
+
+                  <form className="lords-modal-form">
+                    <div className="lords-form-group">
+                      <label htmlFor="modal-name">Full Name *</label>
+                      <input
+                        type="text"
+                        id="modal-name"
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
+
+                    <div className="lords-form-row">
+                      <div className="lords-form-group">
+                        <label htmlFor="modal-email">Email Address *</label>
+                        <input
+                          type="email"
+                          id="modal-email"
+                          placeholder="your.email@example.com"
+                          required
+                        />
+                      </div>
+
+                      <div className="lords-form-group">
+                        <label htmlFor="modal-phone">Phone Number *</label>
+                        <input
+                          type="tel"
+                          id="modal-phone"
+                          placeholder="+91 98765 43210"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="lords-form-group">
+                      <label htmlFor="modal-company">Company/Farm Name</label>
+                      <input
+                        type="text"
+                        id="modal-company"
+                        placeholder="Enter your company or farm name"
+                      />
+                    </div>
+
+                    <div className="lords-form-group">
+                      <label htmlFor="modal-inquiry">Type of Inquiry *</label>
+                      <select id="modal-inquiry" required>
+                        <option value="">Select inquiry type</option>
+                        <option value="partnership">Partnership Opportunity</option>
+                        <option value="bulk">Bulk Order</option>
+                        <option value="distribution">Distribution Rights</option>
+                        <option value="franchise">Franchise Opportunity</option>
+                        <option value="support">Technical Support</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+
+                    <div className="lords-form-group">
+                      <label htmlFor="modal-message">Your Message *</label>
+                      <textarea
+                        id="modal-message"
+                        rows="4"
+                        placeholder="Tell us about your inquiry, requirements, or how we can collaborate..."
+                        required
+                      ></textarea>
+                    </div>
+
+                    <button type="submit" className="lords-modal-submit-btn">
+                      <span>Send Message</span>
+                      <FiCheckCircle />
+                    </button>
+                  </form>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
         </section>
 
         {/* DOWNLOAD APP SECTION */}

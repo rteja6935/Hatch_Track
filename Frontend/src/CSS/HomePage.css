@@ -608,6 +608,157 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1;
 }
 
+/* ScrollStack Features Section */
+.lords-features-scroll-section {
+  min-height: 100vh;
+  padding: 0;
+}
+
+.lords-features-scroll-header {
+  position: relative;
+  z-index: 2;
+  padding: 3rem 0 1rem;
+}
+
+/* ScrollStack Card Styling */
+.scroll-stack-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: none !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+}
+
+.scroll-stack-card .lords-feature-title {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.scroll-stack-card .lords-feature-desc {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.lords-scroll-icon {
+  margin-bottom: 1.5rem;
+  width: 70px !important;
+  height: 70px !important;
+  font-size: 1.75rem !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* Unique solid gradient colors for each ScrollStack card */
+.lords-scroll-card-1 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.lords-scroll-card-2 {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.lords-scroll-card-3 {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.lords-scroll-card-4 {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.lords-scroll-card-5 {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.lords-scroll-card-6 {
+  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+
+/* Responsive ScrollStack Cards */
+@media (max-width: 992px) {
+  .scroll-stack-card .lords-feature-title {
+    font-size: 1.35rem;
+  }
+
+  .scroll-stack-card .lords-feature-desc {
+    font-size: 1rem;
+  }
+
+  .lords-scroll-icon {
+    width: 65px !important;
+    height: 65px !important;
+    font-size: 1.65rem !important;
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .lords-features-scroll-header {
+    padding: 2rem 0 0.5rem;
+  }
+
+  .scroll-stack-card .lords-feature-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .scroll-stack-card .lords-feature-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .lords-scroll-icon {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .lords-features-scroll-header {
+    padding: 1.5rem 0 0.25rem;
+  }
+
+  .scroll-stack-card .lords-feature-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .scroll-stack-card .lords-feature-desc {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .lords-scroll-icon {
+    width: 55px !important;
+    height: 55px !important;
+    font-size: 1.35rem !important;
+    margin-bottom: 0.875rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .scroll-stack-card .lords-feature-title {
+    font-size: 1.05rem;
+  }
+
+  .scroll-stack-card .lords-feature-desc {
+    font-size: 0.85rem;
+  }
+
+  .lords-scroll-icon {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 1.25rem !important;
+  }
+}
+
 .lords-section-header {
   text-align: center;
   margin-bottom: var(--lords-spacing-xl);
@@ -1176,75 +1327,430 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
-   GET IN TOUCH / COLLABORATION SECTION
+   GET IN TOUCH / COLLABORATION SECTION - CREATIVE DESIGN
    ============================================ */
 
 .lords-collaborate-section {
   padding: var(--lords-spacing-xl) 0;
-  background: var(--lords-bg-secondary);
+  background: var(--lords-bg);
+  position: relative;
+  overflow: hidden;
 }
 
-.lords-collaborate-content {
+.lords-collaborate-bg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.lords-collaborate-section .lords-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Collaboration Cards Grid */
+.lords-collaborate-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 4rem;
-  margin-top: 3rem;
-  align-items: start;
-}
-
-.lords-collaborate-info {
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  margin: 3rem 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.lords-collaborate-feature {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
+.lords-collab-card {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
 }
 
-.lords-collaborate-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--lords-radius-md);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+.lords-collab-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.75rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-collab-card p {
+  font-size: 0.95rem;
+  color: var(--lords-text-secondary);
+  line-height: 1.6;
+}
+
+.lords-collab-icon-lg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  font-size: 2rem;
+  color: white;
   transition: all 0.3s ease;
 }
 
-.lords-collaborate-feature:hover .lords-collaborate-icon {
-  transform: scale(1.05) rotate(-5deg);
-  box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4);
+/* Individual card colors */
+.lords-collab-card-1 {
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
-.lords-collaborate-feature h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
+.lords-collab-card-1 .lords-collab-icon-lg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.lords-collab-card-1:hover {
+  border-color: #667eea;
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+}
+
+.lords-collab-card-2 {
+  border-color: rgba(240, 147, 251, 0.3);
+}
+
+.lords-collab-card-2 .lords-collab-icon-lg {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+}
+
+.lords-collab-card-2:hover {
+  border-color: #f093fb;
+  box-shadow: 0 20px 60px rgba(240, 147, 251, 0.3);
+}
+
+.lords-collab-card-3 {
+  border-color: rgba(79, 172, 254, 0.3);
+}
+
+.lords-collab-card-3 .lords-collab-icon-lg {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+}
+
+.lords-collab-card-3:hover {
+  border-color: #4facfe;
+  box-shadow: 0 20px 60px rgba(79, 172, 254, 0.3);
+}
+
+/* CTA Button Section */
+.lords-collab-cta-wrapper {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.lords-collab-open-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.25rem 3rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-collab-open-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(102, 126, 234, 0.5);
+}
+
+.lords-collab-open-btn:active {
+  transform: translateY(-1px);
+}
+
+.lords-collab-subtext {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--lords-text-secondary);
+  font-style: italic;
+}
+
+/* POPUP MODAL STYLING */
+.lords-form-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.lords-form-modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+.lords-form-modal-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  border-radius: 30px 30px 0 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.lords-form-modal-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #f093fb 50%, #4facfe 100%);
+  z-index: 1;
+}
+
+.lords-form-modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.lords-form-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.lords-form-modal-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 3rem 3rem;
+  margin-top: 200px;
+}
+
+.lords-form-modal-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: white;
+}
+
+.lords-form-modal-header h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.lords-form-modal-header p {
+  font-size: 1.05rem;
+  opacity: 0.95;
+}
+
+/* Modal Form Styling */
+.lords-modal-form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.lords-modal-form .lords-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.lords-modal-form label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--lords-text-primary);
   margin-bottom: 0.5rem;
   font-family: 'Inter', sans-serif;
 }
 
-.lords-collaborate-feature p {
+.lords-modal-form input,
+.lords-modal-form select,
+.lords-modal-form textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
   font-size: 1rem;
-  color: var(--lords-text-secondary);
+  color: var(--lords-text-primary);
+  background: #f9fafb;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-modal-form input:focus,
+.lords-modal-form select:focus,
+.lords-modal-form textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.lords-modal-form input::placeholder,
+.lords-modal-form textarea::placeholder {
+  color: #9ca3af;
+}
+
+.lords-modal-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.lords-modal-form textarea {
+  resize: vertical;
+  min-height: 100px;
   line-height: 1.6;
 }
 
-/* Form Styling */
-.lords-collaborate-form {
-  background: var(--lords-card-bg);
-  padding: 2.5rem;
-  border-radius: var(--lords-radius-lg);
-  box-shadow: var(--lords-shadow-lg);
-  border: 1px solid var(--lords-border);
+.lords-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.lords-modal-submit-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-modal-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+}
+
+.lords-modal-submit-btn svg {
+  font-size: 1.25rem;
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+  .lords-form-modal-overlay {
+    padding: 1rem;
+  }
+
+  .lords-form-modal-content {
+    padding: 0 2rem 2rem;
+    margin-top: 180px;
+  }
+
+  .lords-form-modal-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .lords-modal-form {
+    padding: 2rem 1.5rem;
+  }
+
+  .lords-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .lords-form-modal-content {
+    padding: 0 1.5rem 1.5rem;
+    margin-top: 150px;
+  }
+
+  .lords-form-modal-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .lords-modal-form {
+    padding: 1.5rem;
+  }
+
+  .lords-form-modal-close {
+    width: 40px;
+    height: 40px;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+/* Responsive Collaboration Cards */
+@media (max-width: 992px) {
+  .lords-collaborate-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .lords-collab-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .lords-collab-icon-lg {
+    width: 70px;
+    height: 70px;
+    font-size: 1.75rem;
+  }
+
+  .lords-collab-open-btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
 }
 
 .lords-form-group {

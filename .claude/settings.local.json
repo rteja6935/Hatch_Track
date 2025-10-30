@@ -4,7 +4,8 @@
       "Bash(git restore:*)",
       "Bash(npm install:*)",
       "Bash(timeout 3 bash:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

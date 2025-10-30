@@ -1,0 +1,108 @@
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: visible;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: scroll-position;
+}
+
+.scroll-stack-inner {
+  padding: 5vh 3rem 40rem;
+  min-height: 100vh;
+}
+
+.scroll-stack-card-wrapper {
+  position: relative;
+}
+
+.scroll-stack-card {
+  transform-origin: top center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  height: auto;
+  min-height: 22rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 2.5rem 3rem;
+  border-radius: 30px;
+  box-sizing: border-box;
+  /* Improve mobile performance */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  position: relative;
+}
+
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .scroll-stack-card {
+    max-width: 900px;
+    padding: 2.5rem 2.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .scroll-stack-inner {
+    padding: 5vh 2rem 35rem;
+  }
+
+  .scroll-stack-card {
+    max-width: 700px;
+    min-height: 20rem;
+    padding: 2rem 2rem;
+    border-radius: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-stack-inner {
+    padding: 3vh 1.5rem 30rem;
+  }
+
+  .scroll-stack-card {
+    max-width: 100%;
+    min-height: 18rem;
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    margin: 15px auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .scroll-stack-inner {
+    padding: 2vh 1rem 25rem;
+  }
+
+  .scroll-stack-card {
+    min-height: 16rem;
+    padding: 1.75rem 1.25rem;
+    border-radius: 18px;
+    margin: 12px auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .scroll-stack-inner {
+    padding: 2vh 0.75rem 20rem;
+  }
+
+  .scroll-stack-card {
+    min-height: 15rem;
+    padding: 1.5rem 1rem;
+    border-radius: 15px;
+    margin: 10px auto;
+  }
+}
