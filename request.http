@@ -1,0 +1,10 @@
+
+POST http://localhost:3000/api/Auth/User-signup-otpGen
+Content-Type: application/json
+
+{
+  "phoneNumber": "+918125733658"
+}
+
+###
+

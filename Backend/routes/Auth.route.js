@@ -4,7 +4,10 @@ const AuthController = require('../controllers/Auth.controller');
 
 
 // Signup routes
-router.post('/User-signup-otpVerify', AuthController.userSignupVerifyOtp);
+router.post('/User-signup-otpVerify', (req, res, next) => {
+  console.log("request hit");
+  next(); // important: pass control to next middleware/controller
+}, AuthController.userSignupVerifyOtp);
 router.post('/User-signup-otpGen', AuthController.userSignupGenOtp);
 
 // Login routes

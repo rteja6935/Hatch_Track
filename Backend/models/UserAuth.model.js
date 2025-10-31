@@ -25,6 +25,12 @@ const UserSchema = new mongoose.Schema(
       minlength: 6,
       trim: true,
     },
+    approvalStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending',
+      required: true,
+    },
   },
   { timestamps: true }
 );

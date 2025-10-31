@@ -143,7 +143,27 @@ exports.userLoginGenOtp = async (req, res) => {
     // Check if user exists
     const user = await User.findOne({ phoneNumber });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found with this phone number" });
+      return res.status(404).json({
+        success: false,
+        notRegistered: true,
+        message: "This mobile number is not registered. Please sign up first."
+      });
+    }
+
+    // Check approval status
+    if (user.approvalStatus === 'pending') {
+      return res.status(403).json({
+        success: false,
+        pendingApproval: true,
+        message: "Your mobile number is verified. Kindly wait for the organization's approval to access the system."
+      });
+    }
+
+    if (user.approvalStatus === 'rejected') {
+      return res.status(403).json({
+        success: false,
+        message: "Your account has been rejected by the organization. Please contact support for more information."
+      });
     }
 
     // Generate OTP
@@ -224,7 +244,27 @@ exports.checkUserPassword = async (req, res) => {
     // Check if user exists
     const user = await User.findOne({ phoneNumber });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found with this phone number" });
+      return res.status(404).json({
+        success: false,
+        notRegistered: true,
+        message: "This mobile number is not registered. Please sign up first."
+      });
+    }
+
+    // Check approval status
+    if (user.approvalStatus === 'pending') {
+      return res.status(403).json({
+        success: false,
+        pendingApproval: true,
+        message: "Your mobile number is verified. Kindly wait for the organization's approval to access the system."
+      });
+    }
+
+    if (user.approvalStatus === 'rejected') {
+      return res.status(403).json({
+        success: false,
+        message: "Your account has been rejected by the organization. Please contact support for more information."
+      });
     }
 
     // Check if password exists
@@ -254,7 +294,27 @@ exports.userLoginPassword = async (req, res) => {
     // Check if user exists
     const user = await User.findOne({ phoneNumber });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found with this phone number" });
+      return res.status(404).json({
+        success: false,
+        notRegistered: true,
+        message: "This mobile number is not registered. Please sign up first."
+      });
+    }
+
+    // Check approval status
+    if (user.approvalStatus === 'pending') {
+      return res.status(403).json({
+        success: false,
+        pendingApproval: true,
+        message: "Your mobile number is verified. Kindly wait for the organization's approval to access the system."
+      });
+    }
+
+    if (user.approvalStatus === 'rejected') {
+      return res.status(403).json({
+        success: false,
+        message: "Your account has been rejected by the organization. Please contact support for more information."
+      });
     }
 
     // Check if password exists (user may be OTP-only)
