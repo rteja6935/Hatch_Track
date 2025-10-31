@@ -7,6 +7,7 @@ import Aurora from "./Aurora";
 import Particles from "./Particles";
 import Galaxy from "./Galaxy";
 import ScrollStack, { ScrollStackItem } from "./ScrollStack";
+import RotatingText from "./RotatingText";
 import missionImage from '../Images/mission.jpeg';
 // About Tabs Component
 const AboutTabs = () => {
@@ -295,8 +296,20 @@ const HomePage = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="lords-hero-title">
-                A New Vision in the<br />
-                <span className="lords-gradient-text">Hatchery World</span>
+                A New Vision in the Hatchery{' '}
+                <span className="lords-gradient-text">
+                  <RotatingText
+                    texts={['World', 'Future', 'Network', 'Revolution']}
+                    staggerFrom="last"
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "-120%" }}
+                    staggerDuration={0.025}
+                    splitLevelClassName="overflow-hidden"
+                    transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                    rotationInterval={2000}
+                  />
+                </span>
               </h1>
               <p className="lords-hero-subtitle">
                  Redefining aquaculture with innovation, sustainability, and science to deliver healthy, high-quality prawn seeds for better yields and better profits.

@@ -1,0 +1,47 @@
+/* Fixed-height clipping container for rotating text */
+.text-rotate {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  height: 1.2em;
+  overflow: hidden;
+  vertical-align: baseline;
+  line-height: 1.2em;
+}
+
+.text-rotate-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-rotate-word {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  line-height: 1.2em;
+}
+
+.text-rotate-lines {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  line-height: 1.2em;
+}
+
+.text-rotate-element {
+  display: inline-block;
+  will-change: transform;
+  line-height: 1.2em;
+}
+
+.text-rotate-space {
+  display: inline-block;
+  white-space: pre;
+}
