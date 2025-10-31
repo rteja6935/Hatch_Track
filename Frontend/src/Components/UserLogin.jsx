@@ -84,7 +84,7 @@ const UserLogin = () => {
 
     try {
       // Add +91 country code to phone number
-      const phoneNumberWithCode = `+91${phoneNumber}`;
+      const phoneNumberWithCode = `${phoneNumber}`;
 
       // Call backend API based on signup or login
       const endpoint = isSignUp
@@ -130,7 +130,7 @@ const UserLogin = () => {
 
     try {
       // Add +91 country code to phone number
-      const phoneNumberWithCode = `+91${phoneNumber}`;
+      const phoneNumberWithCode = `${phoneNumber}`;
 
       // Call backend API based on signup or login
       const endpoint = isSignUp
@@ -195,7 +195,7 @@ const UserLogin = () => {
     }
 
     try {
-      const phoneNumberWithCode = `+91${phoneNumber}`;
+      const phoneNumberWithCode = `${phoneNumber}`;
 
       const response = await fetch('http://localhost:3000/api/Auth/User-check-password', {
         method: 'POST',
@@ -241,7 +241,7 @@ const UserLogin = () => {
 
     try {
       // Add +91 country code to phone number
-      const phoneNumberWithCode = `+91${phoneNumber}`;
+      const phoneNumberWithCode = `${phoneNumber}`;
 
       const response = await fetch('http://localhost:3000/api/Auth/User-login-password', {
         method: 'POST',
@@ -299,7 +299,7 @@ const UserLogin = () => {
     setIsLoadingCreatePassword(true);
 
     try {
-      const phoneNumberWithCode = `+91${phoneNumber}`;
+      const phoneNumberWithCode = `${phoneNumber}`;
 
       const response = await fetch('http://localhost:3000/api/Auth/User-create-password', {
         method: 'POST',
@@ -341,7 +341,7 @@ const UserLogin = () => {
     setIsLoadingForgotPassword(true);
 
     try{
-      const phoneNumberWithCode = `+91${phoneNumber}`;
+      const phoneNumberWithCode = `${phoneNumber}`;
 
       const response = await fetch('http://localhost:3000/api/Auth/User-forgot-password-otp', {
         method: 'POST',
@@ -387,7 +387,7 @@ const UserLogin = () => {
     }
 
     try {
-      const phoneNumberWithCode = `+91${phoneNumber}`;
+      const phoneNumberWithCode = `${phoneNumber}`;
 
       const response = await fetch('http://localhost:3000/api/Auth/User-reset-password', {
         method: 'POST',
