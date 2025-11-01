@@ -8,12 +8,12 @@
    ============================================ */
 
 :root {
-  /* Primary Colors - Blueish-Grey Professional Palette */
-  --lords-primary: #5B7C99;
-  --lords-primary-dark: #3D5A73;
-  --lords-primary-light: #7A98B3;
-  --lords-secondary: #4A5F7F;
-  --lords-accent: #6B8CAE;
+  /* Primary Colors - Minimal Black & White Theme */
+  --lords-primary: #000000;
+  --lords-primary-dark: #1a1a1a;
+  --lords-primary-light: #333333;
+  --lords-secondary: #ffffff;
+  --lords-accent: #f5f5f5;
 
   /* Background Colors */
   --lords-bg: #E8EDF2;
@@ -89,15 +89,22 @@ html {
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
   background-color: var(--lords-bg);
   color: var(--lords-text-primary);
   line-height: 1.6;
-  font-weight: 500;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .lords-root {
@@ -130,16 +137,22 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--lords-card-bg);
+  background: rgba(255, 255, 255, 0.85);
   border-radius: var(--lords-radius-lg);
   box-shadow: var(--lords-shadow-lg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--lords-border);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(203, 213, 225, 0.6);
   transition: var(--lords-transition);
 }
 
 .lords-navbar--scrolled::before {
   box-shadow: var(--lords-shadow-xl);
+}
+
+/* Dark mode navbar transparency */
+.lords-dark .lords-navbar::before {
+  background: rgba(30, 37, 46, 0.85);
+  border: 1px solid rgba(42, 52, 65, 0.6);
 }
 
 .lords-navbar-inner {
@@ -222,47 +235,58 @@ body {
   margin-left: 1rem;
 }
 
-/* Buttons */
+/* Buttons - Minimal Black & White Design */
 .lords-btn {
-  padding: 0.625rem 1.25rem;
-  font-size: 0.95rem;
-  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
   border: none;
-  border-radius: var(--lords-radius-sm);
+  border-radius: 6px;
   cursor: pointer;
-  transition: var(--lords-transition);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-family: inherit;
+  font-family: 'Inter', -apple-system, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .lords-btn-primary {
-  background: var(--lords-gradient-primary);
-  color: white;
-  box-shadow: var(--lords-shadow-sm);
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
 }
 
 .lords-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--lords-shadow-md);
+  background: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.lords-btn-primary:active {
+  transform: translateY(0);
 }
 
 .lords-btn-outline {
   background: transparent;
-  color: var(--lords-primary);
-  border: 2px solid var(--lords-primary);
+  color: #000000;
+  border: 1.5px solid #000000;
 }
 
 .lords-btn-outline:hover {
-  background: var(--lords-primary-dark);
-  color: white;
+  background: #000000;
+  color: #ffffff;
+}
+
+.lords-btn-outline:active {
+  transform: scale(0.98);
 }
 
 .lords-btn-lg {
-  padding: 0.875rem 2rem;
-  font-size: 1.05rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .lords-btn.block {
@@ -357,7 +381,7 @@ body {
    ============================================ */
 
 .lords-main {
-  margin-top: 100px;
+  margin-top: 0;
   min-height: 100vh;
 }
 
@@ -367,35 +391,39 @@ body {
 
 .lords-hero {
   position: relative;
-  min-height: 600px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding: 4rem 0;
+  padding: 0;
 }
 
 .lords-hero-bg {
   position: absolute;
-  inset: 0;
-  background: var(--lords-gradient-overlay);
-  background-image:
-    url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=1920&auto=format&fit=crop'),
-    var(--lords-gradient-overlay);
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: overlay;
-  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  z-index: 0;
+}
+
+.lords-hero-bg .aurora-container {
+  z-index: 1;
 }
 
 .lords-hero-overlay {
   position: absolute;
   inset: 0;
-  background: var(--lords-gradient-overlay);
+  background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.2) 100%);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .lords-hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 10;
+  padding-top: 140px;
 }
 
 .lords-hero-text {
@@ -405,7 +433,7 @@ body {
 .lords-hero-title {
   font-size: 3.5rem;
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.5;
   color: white;
   margin-bottom: var(--lords-spacing-md);
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -413,10 +441,43 @@ body {
 }
 
 .lords-gradient-text {
-  background: linear-gradient(135deg, #E8EDF2 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
+  height: 1.4em;
+  vertical-align: middle;
+  position: relative;
+  z-index: 10;
+
+  /* Box styling with contrast color */
+  background: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+  padding: 0.3em 0.7em;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
+  overflow: visible;
+  line-height: 1;
+}
+
+/* Ensure rotating text is visible and aligned */
+.lords-gradient-text .text-rotate {
+  height: 1.2em;
+  line-height: 1.2em;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.lords-gradient-text .text-rotate-element {
+  color: white;
+  -webkit-text-fill-color: white;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
 }
 
 .lords-hero-subtitle {
@@ -433,25 +494,29 @@ body {
   flex-wrap: wrap;
 }
 
-/* Wave decoration */
+/* Smooth Gradient Transition Bar */
 .lords-wave {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  overflow: hidden;
-  line-height: 0;
+  height: 120px;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(15, 23, 42, 0.3) 20%,
+    rgba(15, 23, 42, 0.6) 50%,
+    rgba(15, 23, 42, 0.9) 80%,
+    #0f172a 100%
+  );
+  pointer-events: none;
 }
 
 .lords-wave svg {
-  position: relative;
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 80px;
+  display: none;
 }
 
 .lords-wave-path {
-  fill: var(--lords-bg);
+  display: none;
 }
 
 /* ============================================
@@ -485,16 +550,54 @@ body {
 }
 
 .lords-stat-icon {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   margin: 0 auto var(--lords-spacing-md);
-  border-radius: var(--lords-radius-md);
-  background: var(--lords-gradient-primary);
+  border-radius: 18px;
+  background: var(--stat-gradient);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
+  font-size: 2rem;
+  box-shadow: 0 10px 25px var(--stat-shadow);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.lords-stat-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 60%);
+  opacity: 1;
+}
+
+.lords-stat-card:hover .lords-stat-icon {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 15px 35px var(--stat-shadow);
+}
+
+/* Individual Stat Card Colors */
+.lords-stat-card:nth-child(1) {
+  --stat-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --stat-shadow: rgba(240, 147, 251, 0.5);
+}
+
+.lords-stat-card:nth-child(2) {
+  --stat-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --stat-shadow: rgba(79, 172, 254, 0.5);
+}
+
+.lords-stat-card:nth-child(3) {
+  --stat-gradient: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+  --stat-shadow: rgba(255, 216, 155, 0.5);
+}
+
+.lords-stat-card:nth-child(4) {
+  --stat-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  --stat-shadow: rgba(168, 237, 234, 0.5);
 }
 
 .lords-stat-number {
@@ -512,12 +615,441 @@ body {
 }
 
 /* ============================================
-   FEATURES SECTION
+   PARTICLES & GALAXY WRAPPERS (Used in multiple sections)
+   ============================================ */
+
+.lords-particles-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.lords-galaxy-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ============================================
+   FEATURES SECTION - Creative Multi-Color Icons
    ============================================ */
 
 .lords-features-section {
   padding: var(--lords-spacing-xl) 0;
   background: var(--lords-bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-features-section .lords-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ScrollStack Features Section */
+.lords-features-scroll-section {
+  min-height: 100vh;
+  padding: 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Pattern */
+.lords-features-scroll-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Decorative Dots Pattern */
+.lords-features-scroll-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, rgba(51, 65, 85, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.lords-features-scroll-header {
+  position: relative;
+  z-index: 2;
+  padding: 3rem 0 1rem;
+}
+
+/* ScrollStack Card Styling - Professional Design */
+.scroll-stack-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 2.5rem !important;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  transform: translateZ(0);
+  background: white;
+  border-radius: 16px;
+}
+
+.scroll-stack-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.scroll-stack-card .lords-feature-title {
+  color: #1e293b;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.scroll-stack-card .lords-feature-desc {
+  color: #475569;
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.lords-scroll-icon {
+  margin-bottom: 1.5rem;
+  width: 70px !important;
+  height: 70px !important;
+  font-size: 1.75rem !important;
+  background: transparent !important;
+  border: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.lords-scroll-icon:hover {
+  transform: translateY(-3px) scale(1.08);
+}
+
+/* Beautiful Pastel Color Scheme with Dynamic Elements */
+.lords-scroll-card-1 {
+  background: linear-gradient(135deg, #5281CE 0%, #4270BD 100%) !important;
+  border-left: 5px solid #3B5FA8 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-scroll-card-1::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  animation: float 8s ease-in-out infinite;
+}
+
+.lords-scroll-card-1 .lords-feature-title {
+  color: white !important;
+}
+
+.lords-scroll-card-1 .lords-feature-desc {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.lords-scroll-card-1 .lords-scroll-icon {
+  background: linear-gradient(135deg, #6A94DC 0%, #5281CE 100%) !important;
+  color: white;
+  box-shadow: 0 8px 25px rgba(82, 129, 206, 0.5);
+}
+
+.lords-scroll-card-2 {
+  background: linear-gradient(135deg, #998CEB 0%, #8A7DD9 100%) !important;
+  border-left: 5px solid #7969C7 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-scroll-card-2::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+}
+
+.lords-scroll-card-2 .lords-feature-title {
+  color: white !important;
+}
+
+.lords-scroll-card-2 .lords-feature-desc {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.lords-scroll-card-2 .lords-scroll-icon {
+  background: linear-gradient(135deg, #ADA0F4 0%, #998CEB 100%) !important;
+  color: white;
+  box-shadow: 0 8px 25px rgba(153, 140, 235, 0.5);
+}
+
+.lords-scroll-card-3 {
+  background: linear-gradient(135deg, #E9D787 0%, #DFC875 100%) !important;
+  border-left: 5px solid #C9AE60 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-scroll-card-3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.15) 100%);
+}
+
+.lords-scroll-card-3 .lords-feature-title {
+  color: white !important;
+}
+
+.lords-scroll-card-3 .lords-feature-desc {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.lords-scroll-card-3 .lords-scroll-icon {
+  background: linear-gradient(135deg, #F4E299 0%, #E9D787 100%) !important;
+  color: white;
+  box-shadow: 0 8px 25px rgba(233, 215, 135, 0.5);
+}
+
+.lords-scroll-card-4 {
+  background: linear-gradient(135deg, #FF9999 0%, #FF8787 100%) !important;
+  border-left: 5px solid #E67575 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-scroll-card-4::after {
+  content: '';
+  position: absolute;
+  top: -25%;
+  left: 50%;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+  transform: translateX(-50%);
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.lords-scroll-card-4 .lords-feature-title {
+  color: white !important;
+}
+
+.lords-scroll-card-4 .lords-feature-desc {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.lords-scroll-card-4 .lords-scroll-icon {
+  background: linear-gradient(135deg, #FFABAB 0%, #FF9999 100%) !important;
+  color: white;
+  box-shadow: 0 8px 25px rgba(255, 153, 153, 0.5);
+}
+
+.lords-scroll-card-5 {
+  background: linear-gradient(135deg, #4DB8C9 0%, #3BA5B5 100%) !important;
+  border-left: 5px solid #2B8A98 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-scroll-card-5::before {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  right: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 65%);
+}
+
+.lords-scroll-card-5 .lords-feature-title {
+  color: white !important;
+}
+
+.lords-scroll-card-5 .lords-feature-desc {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.lords-scroll-card-5 .lords-scroll-icon {
+  background: linear-gradient(135deg, #6ECBDB 0%, #4DB8C9 100%) !important;
+  color: white;
+  box-shadow: 0 8px 25px rgba(77, 184, 201, 0.5);
+}
+
+.lords-scroll-card-6 {
+  background: linear-gradient(135deg, #7FC271 0%, #6DB35F 100%) !important;
+  border-left: 5px solid #5A9D4D !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-scroll-card-6::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.12) 50%, transparent 100%);
+  transform: translateY(-50%);
+}
+
+.lords-scroll-card-6 .lords-feature-title {
+  color: white !important;
+}
+
+.lords-scroll-card-6 .lords-feature-desc {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.lords-scroll-card-6 .lords-scroll-icon {
+  background: linear-gradient(135deg, #95D087 0%, #7FC271 100%) !important;
+  color: white;
+  box-shadow: 0 8px 25px rgba(127, 194, 113, 0.5);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-15px, 15px) scale(0.98);
+  }
+}
+
+/* Responsive ScrollStack Cards */
+@media (max-width: 992px) {
+  .scroll-stack-card .lords-feature-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  .scroll-stack-card .lords-feature-desc {
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .lords-scroll-icon {
+    width: 75px !important;
+    height: 75px !important;
+    font-size: 1.85rem !important;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .lords-features-scroll-header {
+    padding: 2rem 0 0.5rem;
+  }
+
+  .scroll-stack-card .lords-feature-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .scroll-stack-card .lords-feature-desc {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.7;
+  }
+
+  .lords-scroll-icon {
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 1.75rem !important;
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .lords-features-scroll-header {
+    padding: 1.5rem 0 0.25rem;
+  }
+
+  .scroll-stack-card .lords-feature-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 0.875rem;
+  }
+
+  .scroll-stack-card .lords-feature-desc {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.65;
+  }
+
+  .lords-scroll-icon {
+    width: 65px !important;
+    height: 65px !important;
+    font-size: 1.6rem !important;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .scroll-stack-card .lords-feature-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+
+  .scroll-stack-card .lords-feature-desc {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .lords-scroll-icon {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 1.5rem !important;
+  }
 }
 
 .lords-section-header {
@@ -530,8 +1062,8 @@ body {
   font-weight: 800;
   color: var(--lords-text-primary);
   margin-bottom: var(--lords-spacing-sm);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: -0.5px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .lords-section-subtitle {
@@ -554,25 +1086,102 @@ body {
   box-shadow: var(--lords-shadow-sm);
   border: 1px solid var(--lords-border);
   transition: var(--lords-transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lords-feature-card:hover::before {
+  opacity: 1;
 }
 
 .lords-feature-card:hover {
   transform: translateY(-8px);
   box-shadow: var(--lords-shadow-lg);
-  border-color: var(--lords-primary);
+  border-color: var(--card-accent);
 }
 
 .lords-feature-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--lords-radius-md);
-  background: var(--lords-gradient-primary);
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: var(--icon-gradient);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   margin-bottom: var(--lords-spacing-md);
+  box-shadow: 0 8px 20px var(--icon-shadow);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.lords-feature-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lords-feature-card:hover .lords-feature-icon {
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: 0 12px 28px var(--icon-shadow);
+}
+
+.lords-feature-card:hover .lords-feature-icon::after {
+  opacity: 1;
+}
+
+/* Individual Feature Card Colors */
+.lords-feature-card:nth-child(1) {
+  --icon-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --icon-shadow: rgba(102, 126, 234, 0.4);
+  --card-accent: #667eea;
+}
+
+.lords-feature-card:nth-child(2) {
+  --icon-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --icon-shadow: rgba(240, 147, 251, 0.4);
+  --card-accent: #f093fb;
+}
+
+.lords-feature-card:nth-child(3) {
+  --icon-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --icon-shadow: rgba(79, 172, 254, 0.4);
+  --card-accent: #4facfe;
+}
+
+.lords-feature-card:nth-child(4) {
+  --icon-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --icon-shadow: rgba(67, 233, 123, 0.4);
+  --card-accent: #43e97b;
+}
+
+.lords-feature-card:nth-child(5) {
+  --icon-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  --icon-shadow: rgba(250, 112, 154, 0.4);
+  --card-accent: #fa709a;
+}
+
+.lords-feature-card:nth-child(6) {
+  --icon-gradient: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+  --icon-shadow: rgba(48, 207, 208, 0.4);
+  --card-accent: #30cfd0;
 }
 
 .lords-feature-title {
@@ -580,7 +1189,7 @@ body {
   font-weight: 700;
   color: var(--lords-text-primary);
   margin-bottom: var(--lords-spacing-sm);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .lords-feature-desc {
@@ -595,7 +1204,260 @@ body {
 
 .lords-about-section {
   padding: var(--lords-spacing-xl) 0;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-about-section .lords-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* About section text colors for dark background */
+.lords-about-section .lords-section-title {
+  color: #ffffff;
+}
+
+.lords-about-section .lords-section-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* About Tabs Styles */
+.about-tabs-container {
+  margin-top: 3rem;
+}
+
+.about-tabs-navigation {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.about-tab-btn {
+  background: var(--lords-card-bg);
+  border: 2px solid var(--lords-border);
+  border-radius: var(--lords-radius-md);
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  transition: var(--lords-transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--lords-text-secondary);
+}
+
+.about-tab-btn:hover {
+  border-color: var(--lords-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--lords-shadow-md);
+}
+
+.about-tab-btn.active {
+  background: var(--lords-primary);
+  border-color: var(--lords-primary);
+  color: white;
+  box-shadow: var(--lords-shadow-lg);
+}
+
+.tab-icon {
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+/* Individual colors for each tab icon */
+.about-tab-btn:nth-child(1):not(.active) .tab-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-tab-btn:nth-child(2):not(.active) .tab-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-tab-btn:nth-child(3):not(.active) .tab-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-tab-btn:nth-child(4):not(.active) .tab-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Active tab keeps white icon */
+.about-tab-btn.active .tab-icon {
+  color: white;
+  -webkit-text-fill-color: white;
+}
+
+.tab-label {
+  text-align: center;
+}
+
+.about-tab-content {
+  background: var(--lords-card-bg);
+  border-radius: var(--lords-radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--lords-shadow-md);
+}
+
+.tab-content-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.tab-content-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--lords-text-primary);
+  margin-bottom: 1rem;
+}
+
+.tab-content-description {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--lords-text-secondary);
+  margin-bottom: 2rem;
+}
+
+.tab-content-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--lords-bg-secondary);
+  border-radius: var(--lords-radius-sm);
+  transition: var(--lords-transition);
+}
+
+.highlight-item:hover {
   background: var(--lords-bg);
+  transform: translateX(5px);
+}
+
+.highlight-icon {
+  color: var(--lords-primary);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.highlight-text {
+  color: var(--lords-text-primary);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.tab-quote {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-left: 4px solid var(--lords-primary);
+  background: var(--lords-bg-secondary);
+  border-radius: var(--lords-radius-sm);
+  font-style: italic;
+  font-size: 1.125rem;
+  color: var(--lords-primary);
+  font-weight: 600;
+}
+
+.tab-content-image {
+  position: relative;
+}
+
+.tab-content-image .image-wrapper {
+  border-radius: var(--lords-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--lords-shadow-lg);
+  position: relative;
+}
+
+.tab-content-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+.tab-content-image .image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(91, 124, 153, 0.2) 0%, rgba(122, 152, 179, 0.1) 100%);
+  pointer-events: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 968px) {
+  .about-tabs-navigation {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tab-content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .tab-content-image {
+    order: -1;
+  }
+
+  .tab-content-image img {
+    height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-tabs-navigation {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .about-tab-btn {
+    flex-direction: row;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .tab-icon {
+    font-size: 1.5rem;
+  }
+
+  .about-tab-content {
+    padding: 1.5rem;
+  }
+
+  .tab-content-title {
+    font-size: 1.5rem;
+  }
+
+  .tab-content-description {
+    font-size: 1rem;
+  }
 }
 
 .lords-about-content {
@@ -686,13 +1548,61 @@ body {
   width: 56px;
   height: 56px;
   border-radius: var(--lords-radius-md);
-  background: var(--lords-gradient-primary);
+  background: var(--contact-gradient);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
   margin: 0 auto var(--lords-spacing-md);
+  box-shadow: 0 8px 20px var(--contact-shadow);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-contact-icon::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.lords-contact-card:hover .lords-contact-icon {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 12px 28px var(--contact-shadow);
+}
+
+.lords-contact-card:hover .lords-contact-icon::after {
+  opacity: 1;
+  animation: shine 0.8s ease;
+}
+
+@keyframes shine {
+  0% { left: -50%; }
+  100% { left: 150%; }
+}
+
+/* Individual gradient colors for each contact card */
+.lords-contact-card:nth-child(1) {
+  --contact-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --contact-shadow: rgba(102, 126, 234, 0.4);
+}
+
+.lords-contact-card:nth-child(2) {
+  --contact-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --contact-shadow: rgba(240, 147, 251, 0.4);
+}
+
+.lords-contact-card:nth-child(3) {
+  --contact-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --contact-shadow: rgba(79, 172, 254, 0.4);
 }
 
 .lords-contact-title {
@@ -707,6 +1617,537 @@ body {
   font-size: 1rem;
   color: var(--lords-text-secondary);
   margin-bottom: 0.25rem;
+}
+
+/* ============================================
+   GET IN TOUCH / COLLABORATION SECTION - CREATIVE DESIGN
+   ============================================ */
+
+.lords-collaborate-section {
+  padding: var(--lords-spacing-xl) 0;
+  background: var(--lords-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.lords-collaborate-bg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.lords-collaborate-section .lords-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Collaboration Cards Grid */
+.lords-collaborate-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 3rem 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lords-collab-card {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+}
+
+.lords-collab-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.75rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-collab-card p {
+  font-size: 0.95rem;
+  color: var(--lords-text-secondary);
+  line-height: 1.6;
+}
+
+.lords-collab-icon-lg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* Individual card colors */
+.lords-collab-card-1 {
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.lords-collab-card-1 .lords-collab-icon-lg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.lords-collab-card-1:hover {
+  border-color: #667eea;
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+}
+
+.lords-collab-card-2 {
+  border-color: rgba(240, 147, 251, 0.3);
+}
+
+.lords-collab-card-2 .lords-collab-icon-lg {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+}
+
+.lords-collab-card-2:hover {
+  border-color: #f093fb;
+  box-shadow: 0 20px 60px rgba(240, 147, 251, 0.3);
+}
+
+.lords-collab-card-3 {
+  border-color: rgba(79, 172, 254, 0.3);
+}
+
+.lords-collab-card-3 .lords-collab-icon-lg {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+}
+
+.lords-collab-card-3:hover {
+  border-color: #4facfe;
+  box-shadow: 0 20px 60px rgba(79, 172, 254, 0.3);
+}
+
+/* CTA Button Section */
+.lords-collab-cta-wrapper {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.lords-collab-open-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.25rem 3rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-collab-open-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(102, 126, 234, 0.5);
+}
+
+.lords-collab-open-btn:active {
+  transform: translateY(-1px);
+}
+
+.lords-collab-subtext {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--lords-text-secondary);
+  font-style: italic;
+}
+
+/* POPUP MODAL STYLING */
+.lords-form-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.lords-form-modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+.lords-form-modal-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  border-radius: 30px 30px 0 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.lords-form-modal-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #f093fb 50%, #4facfe 100%);
+  z-index: 1;
+}
+
+.lords-form-modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.lords-form-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.lords-form-modal-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 3rem 3rem;
+  margin-top: 200px;
+}
+
+.lords-form-modal-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: white;
+}
+
+.lords-form-modal-header h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.lords-form-modal-header p {
+  font-size: 1.05rem;
+  opacity: 0.95;
+}
+
+/* Modal Form Styling */
+.lords-modal-form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.lords-modal-form .lords-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.lords-modal-form label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--lords-text-primary);
+  margin-bottom: 0.5rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-modal-form input,
+.lords-modal-form select,
+.lords-modal-form textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: var(--lords-text-primary);
+  background: #f9fafb;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-modal-form input:focus,
+.lords-modal-form select:focus,
+.lords-modal-form textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.lords-modal-form input::placeholder,
+.lords-modal-form textarea::placeholder {
+  color: #9ca3af;
+}
+
+.lords-modal-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.lords-modal-form textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.lords-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.lords-modal-submit-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-modal-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+}
+
+.lords-modal-submit-btn svg {
+  font-size: 1.25rem;
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+  .lords-form-modal-overlay {
+    padding: 1rem;
+  }
+
+  .lords-form-modal-content {
+    padding: 0 2rem 2rem;
+    margin-top: 180px;
+  }
+
+  .lords-form-modal-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .lords-modal-form {
+    padding: 2rem 1.5rem;
+  }
+
+  .lords-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .lords-form-modal-content {
+    padding: 0 1.5rem 1.5rem;
+    margin-top: 150px;
+  }
+
+  .lords-form-modal-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .lords-modal-form {
+    padding: 1.5rem;
+  }
+
+  .lords-form-modal-close {
+    width: 40px;
+    height: 40px;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+/* Responsive Collaboration Cards */
+@media (max-width: 992px) {
+  .lords-collaborate-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .lords-collab-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .lords-collab-icon-lg {
+    width: 70px;
+    height: 70px;
+    font-size: 1.75rem;
+  }
+
+  .lords-collab-open-btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+.lords-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.lords-form-group label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--lords-text-primary);
+  margin-bottom: 0.5rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-form-group input,
+.lords-form-group select,
+.lords-form-group textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--lords-border);
+  border-radius: var(--lords-radius-md);
+  font-size: 1rem;
+  color: var(--lords-text-primary);
+  background: var(--lords-bg);
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.lords-form-group input:focus,
+.lords-form-group select:focus,
+.lords-form-group textarea:focus {
+  outline: none;
+  border-color: var(--lords-primary);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.lords-form-group input::placeholder,
+.lords-form-group textarea::placeholder {
+  color: var(--lords-text-secondary);
+  opacity: 0.6;
+}
+
+.lords-form-group select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.lords-form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.lords-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.lords-submit-btn {
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.0625rem;
+  padding: 1rem 2rem;
+}
+
+.lords-submit-btn svg {
+  font-size: 1.25rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .lords-collaborate-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .lords-collaborate-form {
+    padding: 1.5rem;
+  }
+
+  .lords-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .lords-collaborate-feature {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .lords-collaborate-icon {
+    margin: 0 auto;
+  }
 }
 
 /* ============================================
@@ -744,6 +2185,50 @@ body {
   line-height: 1.6;
 }
 
+.lords-app-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.lords-app-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--lords-radius-md);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.lords-app-feature-item:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.lords-app-feature-item svg {
+  font-size: 1.25rem;
+  color: white;
+}
+
+.lords-app-feature-item span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+}
+
+.lords-playstore-btn {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.lords-playstore-btn:hover {
+  transform: scale(1.05);
+}
+
 .lords-playstore-btn img {
   height: 60px;
   width: auto;
@@ -752,12 +2237,18 @@ body {
 .lords-download-image {
   border-radius: var(--lords-radius-lg);
   overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .lords-download-image img {
   width: 100%;
   height: auto;
   display: block;
+  transition: transform 0.3s ease;
+}
+
+.lords-download-card:hover .lords-download-image img {
+  transform: scale(1.05);
 }
 
 /* ============================================

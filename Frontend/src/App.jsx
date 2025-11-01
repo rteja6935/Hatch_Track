@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from './Components/HomePage';
 import UserLogin from './Components/UserLogin';
+import PendingApproval from './Components/PendingApproval';
 import UserDashboard from './Components/UserDashboard';
 import UserProfile from './Components/UserProfile';
 import UserNotifications from './Components/UserNotifications';
@@ -106,6 +107,7 @@ function App() {
 
         {/* Authentication Routes */}
         <Route path="/user-login" element={<UserLogin />} />
+        <Route path="/pending-approval" element={<PendingApproval />} />
         <Route path="/admin-login" element={<AdminLogIn />} />
 
         {/* User Routes */}

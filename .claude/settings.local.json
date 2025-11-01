@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout 3 bash:*)",
+      "Bash(curl:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node server.js:*)",
+      "Bash(ping:*)"
     ],
     "deny": [],
     "ask": []
